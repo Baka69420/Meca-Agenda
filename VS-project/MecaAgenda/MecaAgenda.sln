@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MecaAgenda", "MecaAgenda\MecaAgenda.csproj", "{294B6A11-D9D0-4AFC-B331-03DD5B00CD43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MecaAgenda.Web", "MecaAgenda\MecaAgenda.Web.csproj", "{294B6A11-D9D0-4AFC-B331-03DD5B00CD43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
