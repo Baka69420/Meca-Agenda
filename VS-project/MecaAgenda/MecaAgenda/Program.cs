@@ -1,7 +1,27 @@
+using MecaAgenda.Infraestructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// *** DEPENDENCY INJECTION ***
+// Repository
+
+// Services
+
+// AutoMapper
+
+// SQL DB Connection
+builder.Services.AddDbContext<MecaAgendaContext>(options =>
+{
+    // Read from appsettings.json
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDataBase"));
+
+    // Enable sensitive datalogging if in dev
+    if(builder.Environment.IsDevelopment()) options.EnableSensitiveDataLogging();
+});
 
 var app = builder.Build();
 
