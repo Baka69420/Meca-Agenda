@@ -5,6 +5,10 @@ VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MecaAgenda.Web", "MecaAgenda\MecaAgenda.Web.csproj", "{294B6A11-D9D0-4AFC-B331-03DD5B00CD43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MecaAgenda.Application", "MecaAgenda.Application\MecaAgenda.Application.csproj", "{57843336-9D59-4D79-85C4-4C4330453685}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MecaAgenda.Infraestructure", "MecaAgenda.Infraestructure\MecaAgenda.Infraestructure.csproj", "{2DE879DD-5204-4D35-B1C7-C6676E98ABFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{294B6A11-D9D0-4AFC-B331-03DD5B00CD43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{294B6A11-D9D0-4AFC-B331-03DD5B00CD43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{294B6A11-D9D0-4AFC-B331-03DD5B00CD43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57843336-9D59-4D79-85C4-4C4330453685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57843336-9D59-4D79-85C4-4C4330453685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57843336-9D59-4D79-85C4-4C4330453685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57843336-9D59-4D79-85C4-4C4330453685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DE879DD-5204-4D35-B1C7-C6676E98ABFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DE879DD-5204-4D35-B1C7-C6676E98ABFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DE879DD-5204-4D35-B1C7-C6676E98ABFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DE879DD-5204-4D35-B1C7-C6676E98ABFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
