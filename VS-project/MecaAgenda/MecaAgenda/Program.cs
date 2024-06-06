@@ -65,6 +65,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Activate Antiforgery
+app.UseAntiforgery();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
