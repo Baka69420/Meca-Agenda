@@ -19,6 +19,8 @@ public partial class Branches
 
     public virtual ICollection<Appointments> Appointments { get; set; } = new List<Appointments>();
 
+    public virtual ICollection<Bills> Bills { get; set; } = new List<Bills>();
+
     public virtual ICollection<BranchSchedules> BranchSchedules { get; set; } = new List<BranchSchedules>();
 
     public virtual ICollection<ScheduleExceptions> ScheduleExceptions { get; set; } = new List<ScheduleExceptions>();

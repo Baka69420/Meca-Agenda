@@ -25,5 +25,7 @@ public partial class Users
 
     public virtual ICollection<Appointments> Appointments { get; set; } = new List<Appointments>();
 
+    public virtual ICollection<Bills> Bills { get; set; } = new List<Bills>();
+
     public virtual Branches? Branch { get; set; }
 }

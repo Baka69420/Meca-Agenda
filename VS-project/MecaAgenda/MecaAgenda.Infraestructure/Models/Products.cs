@@ -19,5 +19,7 @@ public partial class Products
 
     public int? StockQuantity { get; set; }
 
+    public virtual ICollection<BillItems> BillItems { get; set; } = new List<BillItems>();
+
     public virtual Categories? Category { get; set; }
 }

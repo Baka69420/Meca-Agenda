@@ -13,13 +13,19 @@ public partial class Appointments
 
     public int? ServiceId { get; set; }
 
-    public DateTime? AppointmentStart { get; set; }
+    public DateOnly? Date { get; set; }
 
-    public DateTime? AppointmentEnd { get; set; }
+    public TimeOnly? StartTime { get; set; }
+
+    public TimeOnly? EndTime { get; set; }
 
     public string? Status { get; set; }
 
-    public virtual ICollection<Bills> Bills { get; set; } = new List<Bills>();
+    public decimal? Price { get; set; }
+
+    public string? PaymentMethod { get; set; }
+
+    public bool? Paid { get; set; }
 
     public virtual Branches? Branch { get; set; }
 
