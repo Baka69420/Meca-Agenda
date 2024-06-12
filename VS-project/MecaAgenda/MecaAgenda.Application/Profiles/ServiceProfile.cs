@@ -13,7 +13,7 @@ namespace MecaAgenda.Application.Profiles
     {
         public ServiceProfile()
         {
-            CreateMap<ServiceDTO, Services>().ReverseMap();
+            CreateMap<ServiceDTO, Infraestructure.Models.Services>().ReverseMap();
         }
     }
 }
