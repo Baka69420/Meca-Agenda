@@ -5,6 +5,11 @@ using Serilog.Events;
 using Serilog;
 using System.Text;
 using MecaAgenda.Web.Middleware;
+using MecaAgenda.Infraestructure.Repository.Interfaces;
+using MecaAgenda.Infraestructure.Repository.Implementations;
+using MecaAgenda.Application.Services.Interfaces;
+using MecaAgenda.Application.Services.Implementations;
+using MecaAgenda.Application.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +18,43 @@ builder.Services.AddControllersWithViews();
 
 // *** DEPENDENCY INJECTION ***
 // Repository
+builder.Services.AddTransient<IRepositoryAppointment, RepositoryAppointment>();
+builder.Services.AddTransient<IRepositoryBill, RepositoryBill>();
+builder.Services.AddTransient<IRepositoryBillItem, RepositoryBillItem>();
+builder.Services.AddTransient<IRepositoryBranch, RepositoryBranch>();
+builder.Services.AddTransient<IRepositoryBranchSchedule, RepositoryBranchSchedule>();
+builder.Services.AddTransient<IRepositoryCategory, RepositoryCategory>();
+builder.Services.AddTransient<IRepositoryProduct, RepositoryProduct>();
+builder.Services.AddTransient<IRepositoryScheduleException, RepositoryScheduleException>();
+builder.Services.AddTransient<IRepositoryService, RepositoryService>();
+builder.Services.AddTransient<IRepositoryUser, RepositoryUser>();
 
 // Services
+builder.Services.AddTransient<IServiceAppointment, ServiceAppointment>();
+builder.Services.AddTransient<IServiceBill, ServiceBill>();
+builder.Services.AddTransient<IServiceBillItem, ServiceBillItem>();
+builder.Services.AddTransient<IServiceBranch, ServiceBranch>();
+builder.Services.AddTransient<IServiceBranchSchedule, ServiceBranchSchedule>();
+builder.Services.AddTransient<IServiceCategory, ServiceCategory>();
+builder.Services.AddTransient<IServiceProduct, ServiceProduct>();
+builder.Services.AddTransient<IServiceScheduleException, ServiceScheduleException>();
+builder.Services.AddTransient<IServiceService, ServiceService>();
+builder.Services.AddTransient<IServiceUser, ServiceUser>();
 
 // AutoMapper
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddProfile<AppointmentProfile>();
+    config.AddProfile<BillItemProfile>();
+    config.AddProfile<BillProfile>();
+    config.AddProfile<BranchProfile>();
+    config.AddProfile<BranchScheduleProfile>();
+    config.AddProfile<CategoryProfile>();
+    config.AddProfile<ProductProfile>();
+    config.AddProfile<ScheduleExceptionProfile>();
+    config.AddProfile<ServiceProfile>();
+    config.AddProfile<UserProfile>();
+});
 
 // SQL DB Connection
 builder.Services.AddDbContext<MecaAgendaContext>(options =>
