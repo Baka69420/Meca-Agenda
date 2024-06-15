@@ -1,0 +1,12 @@
+Los archivos del proyecto se encuentra en el siguiente repo (el mismo es publico):
+
+https://github.com/Baka69420/Meca-Agenda
+
+
+Para correr el proyecto, porfavor seguir los siguientes pasos:
+
+1 - Correr los 2 scripts en MSSMS que estan dentro de ./db-script
+    1.1 - MecaAgenda DB.sql: Genera la escructura de la DB
+    1.2 - MecaAgenda Data.sql: Llena la DB con datos de prueba
+    
+2 - Abrir la solucion que se encuentra en ./VS-project/MecaAgenda
