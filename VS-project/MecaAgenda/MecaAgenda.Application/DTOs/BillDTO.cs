@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,24 +11,43 @@ namespace MecaAgenda.Application.DTOs
 {
     public record BillDTO
     {
+        [Display(Name = "Bill ID")]
+        [ValidateNever]
         public int BillId { get; set; }
 
-        public int? ClientId { get; set; }
+        [DisplayName("Client ID")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int ClientId { get; set; }
 
-        public int? BranchId { get; set; }
+        [DisplayName("Branch ID")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int BranchId { get; set; }
 
-        public DateOnly? Date { get; set; }
+        [DisplayName("Date")]
+        [Required(ErrorMessage = "{0} is required")]
+        public DateOnly Date { get; set; }
 
-        public decimal? TotalAmount { get; set; }
+        [DisplayName("Total")]
+        [Required(ErrorMessage = "{0} is required")]
+        public decimal TotalAmount { get; set; }
 
-        public string? PaymentMethod { get; set; }
+        [DisplayName("Payment Method")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string PaymentMethod { get; set; } = null!;
 
-        public bool? Paid { get; set; }
+        [DisplayName("Payment Status")]
+        [Required(ErrorMessage = "{0} is required")]
+        public bool Paid { get; set; }
 
-        public virtual List<BillItemDTO> BillItems { get; set; } = new List<BillItemDTO>();
+        [ValidateNever]
+        public virtual List<BillItemDTO> BillItems { get; set; } = null!;
 
-        public virtual BranchDTO? Branch { get; set; }
+        [DisplayName("Branch")]
+        [ValidateNever]
+        public virtual BranchDTO Branch { get; set; } = null!;
 
-        public virtual UserDTO? Client { get; set; }
+        [DisplayName("Client")]
+        [ValidateNever]
+        public virtual UserDTO Client { get; set; } = null!;
     }
 }

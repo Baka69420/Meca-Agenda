@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,22 +11,39 @@ namespace MecaAgenda.Application.DTOs
 {
     public record ProductDTO
     {
+        [Display(Name = "Product ID")]
+        [ValidateNever]
         public int ProductId { get; set; }
 
-        public string? Name { get; set; }
+        [DisplayName("Name")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Name { get; set; } = null!;
 
-        public string? Description { get; set; }
+        [DisplayName("Description")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Description { get; set; } = null!;
 
-        public int? CategoryId { get; set; }
+        [DisplayName("Category ID")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int CategoryId { get; set; }
 
-        public decimal? Price { get; set; }
+        [DisplayName("Price")]
+        [Required(ErrorMessage = "{0} is required")]
+        public decimal Price { get; set; }
 
-        public string? Brand { get; set; }
+        [DisplayName("Brand")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Brand { get; set; } = null!;
 
-        public int? StockQuantity { get; set; }
+        [DisplayName("Stock")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int StockQuantity { get; set; }
 
-        public virtual List<BillItemDTO> BillItems { get; set; } = new List<BillItemDTO>();
+        [ValidateNever]
+        public virtual List<BillItemDTO> BillItems { get; set; } = null!;
 
-        public virtual CategoryDTO? Category { get; set; }
+        [DisplayName("Category")]
+        [ValidateNever]
+        public virtual CategoryDTO Category { get; set; } = null!;
     }
 }

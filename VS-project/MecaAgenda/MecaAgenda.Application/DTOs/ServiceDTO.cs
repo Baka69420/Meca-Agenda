@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,20 +11,35 @@ namespace MecaAgenda.Application.DTOs
 {
     public record ServiceDTO
     {
+        [Display(Name = "Service ID")]
+        [ValidateNever]
         public int ServiceId { get; set; }
 
-        public string? Name { get; set; }
+        [DisplayName("Name")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Name { get; set; } = null!;
 
-        public string? Description { get; set; }
+        [DisplayName("Description")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Description { get; set; } = null!;
 
-        public decimal? Price { get; set; }
+        [DisplayName("Price")]
+        [Required(ErrorMessage = "{0} is required")]
+        public decimal Price { get; set; }
 
-        public int? EstimatedTime { get; set; }
+        [DisplayName("Estimated Time")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int EstimatedTime { get; set; }
 
-        public string? ToolsRequired { get; set; }
+        [DisplayName("Required Tools")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string ToolsRequired { get; set; } = null!;
 
-        public string? MaterialsNeeded { get; set; }
+        [DisplayName("Required Materials")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string MaterialsNeeded { get; set; } = null!;
 
-        public virtual List<AppointmentDTO> Appointments { get; set; } = new List<AppointmentDTO>();
+        [ValidateNever]
+        public virtual List<AppointmentDTO> Appointments { get; set; } = null!;
     }
 }

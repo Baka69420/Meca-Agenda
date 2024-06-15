@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,18 +11,32 @@ namespace MecaAgenda.Application.DTOs
 {
     public record ScheduleExceptionDTO
     {
+        [Display(Name = "Schedule Exception ID")]
+        [ValidateNever]
         public int ExceptionId { get; set; }
 
-        public int? BranchId { get; set; }
+        [DisplayName("Branch ID")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int BranchId { get; set; }
 
-        public DateOnly? Date { get; set; }
+        [DisplayName("Date")]
+        [Required(ErrorMessage = "{0} is required")]
+        public DateOnly Date { get; set; }
 
-        public TimeOnly? StartTime { get; set; }
+        [DisplayName("Exception Start")]
+        [Required(ErrorMessage = "{0} is required")]
+        public TimeOnly StartTime { get; set; }
 
-        public TimeOnly? EndTime { get; set; }
+        [DisplayName("Exception End")]
+        [Required(ErrorMessage = "{0} is required")]
+        public TimeOnly EndTime { get; set; }
 
-        public string? ServicesAffected { get; set; }
+        [DisplayName("Affected Services")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string ServicesAffected { get; set; } = null!;
 
-        public virtual BranchDTO? Branch { get; set; }
+        [DisplayName("Branch")]
+        [ValidateNever]
+        public virtual BranchDTO Branch { get; set; } = null!;
     }
 }

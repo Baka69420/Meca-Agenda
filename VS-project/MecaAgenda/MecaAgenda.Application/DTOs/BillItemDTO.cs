@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,20 +11,36 @@ namespace MecaAgenda.Application.DTOs
 {
     public record BillItemDTO
     {
+        [Display(Name = "Bill Item ID")]
+        [ValidateNever]
         public int BillItemId { get; set; }
 
-        public int? BillId { get; set; }
+        [DisplayName("Bill ID")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int BillId { get; set; }
 
-        public int? ProductId { get; set; }
+        [DisplayName("Product ID")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int ProductId { get; set; }
 
-        public int? Quantity { get; set; }
+        [DisplayName("Quantity")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int Quantity { get; set; }
 
-        public decimal? ProductPrice { get; set; }
+        [DisplayName("Product Price")]
+        [Required(ErrorMessage = "{0} is required")]
+        public decimal ProductPrice { get; set; }
 
-        public decimal? Price { get; set; }
+        [DisplayName("Line Price")]
+        [Required(ErrorMessage = "{0} is required")]
+        public decimal Price { get; set; }
 
-        public virtual BillDTO? Bill { get; set; }
+        [DisplayName("Bill")]
+        [ValidateNever]
+        public virtual BillDTO Bill { get; set; } = null!;
 
-        public virtual ProductDTO? Product { get; set; }
+        [DisplayName("Product")]
+        [ValidateNever]
+        public virtual ProductDTO Product { get; set; } = null!;
     }
 }

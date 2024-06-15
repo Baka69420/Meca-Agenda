@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,28 +11,50 @@ namespace MecaAgenda.Application.DTOs
 {
     public record UserDTO
     {
+        [Display(Name = "User ID")]
+        [ValidateNever]
         public int UserId { get; set; }
 
-        public string? Name { get; set; }
+        [DisplayName("Name")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Name { get; set; } = null!;
 
-        public string? Phone { get; set; }
+        [DisplayName("Phone Number")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Phone { get; set; } = null!;
 
-        public string? Email { get; set; }
+        [DisplayName("Email")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Email { get; set; } = null!;
 
-        public string? Address { get; set; }
+        [DisplayName("Address")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Address { get; set; } = null!;
 
-        public DateOnly? BirthDate { get; set; }
+        [DisplayName("Birth Date")]
+        [Required(ErrorMessage = "{0} is required")]
+        public DateOnly BirthDate { get; set; }
 
-        public string? PasswordHash { get; set; }
+        [DisplayName("Password")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string PasswordHash { get; set; } = null!;
 
-        public string? Role { get; set; }
+        [DisplayName("Role")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Role { get; set; } = null!;
 
-        public int? BranchId { get; set; }
+        [DisplayName("Branch ID")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int BranchId { get; set; }
 
-        public virtual List<AppointmentDTO> Appointments { get; set; } = new List<AppointmentDTO>();
+        [ValidateNever]
+        public virtual List<AppointmentDTO> Appointments { get; set; } = null!;
 
-        public virtual List<BillDTO> Bills { get; set; } = new List<BillDTO>();
+        [ValidateNever]
+        public virtual List<BillDTO> Bills { get; set; } = null!;
 
-        public virtual BranchDTO? Branch { get; set; }
+        [DisplayName("Branch")]
+        [ValidateNever]
+        public virtual BranchDTO Branch { get; set; } = null!;
     }
 }

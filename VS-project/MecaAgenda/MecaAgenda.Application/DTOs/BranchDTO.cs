@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,26 +11,43 @@ namespace MecaAgenda.Application.DTOs
 {
     public record BranchDTO
     {
+        [Display(Name = "Branch ID")]
+        [ValidateNever]
         public int BranchId { get; set; }
 
-        public string? Name { get; set; }
+        [DisplayName("Name")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Name { get; set; } = null!;
 
-        public string? Description { get; set; }
+        [DisplayName("Description")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Description { get; set; } = null!;
 
-        public string? Phone { get; set; }
+        [DisplayName("Phone Number")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Phone { get; set; } = null!;
 
-        public string? Address { get; set; }
+        [DisplayName("Address")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Address { get; set; } = null!;
 
-        public string? Email { get; set; }
+        [DisplayName("Email")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Email { get; set; } = null!;
 
-        public virtual List<AppointmentDTO> Appointments { get; set; } = new List<AppointmentDTO>();
+        [ValidateNever]
+        public virtual List<AppointmentDTO> Appointments { get; set; } = null!;
 
-        public virtual List<BillDTO> Bills { get; set; } = new List<BillDTO>();
+        [ValidateNever]
+        public virtual List<BillDTO> Bills { get; set; } = null!;
 
-        public virtual List<BranchScheduleDTO> BranchSchedules { get; set; } = new List<BranchScheduleDTO>();
+        [ValidateNever]
+        public virtual List<BranchScheduleDTO> BranchSchedules { get; set; } = null!;
 
-        public virtual List<ScheduleExceptionDTO> ScheduleExceptions { get; set; } = new List<ScheduleExceptionDTO>();
+        [ValidateNever]
+        public virtual List<ScheduleExceptionDTO> ScheduleExceptions { get; set; } = null!;
 
-        public virtual List<UserDTO> Users { get; set; } = new List<UserDTO>();
+        [ValidateNever]
+        public virtual List<UserDTO> Users { get; set; } = null!;
     }
 }
