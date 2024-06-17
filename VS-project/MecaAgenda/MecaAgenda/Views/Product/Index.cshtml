@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MecaAgenda.Application.DTOs.ProductDTO>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+    @foreach(var item in Model)
+    {
+        <div class="col">
+            <div class="card shadow-sm">
+                @* <img class="card-img-top"
+                     style="max-height:460px;"
+                     role="img"
+                     src="data:image/jpeg;charset=utf-8;base64, @Convert.ToBase64String(item.Imagen)"
+                     alt="Imagen" /> *@
+
+                <div class="card-body">
+                    <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Name)</h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Brand)</p>
+                    <p>@Html.DisplayNameFor(model => model.StockQuantity): @Html.DisplayFor(modelItem => item.StockQuantity)</p>
+                    <p>@Html.DisplayNameFor(model => model.Price): @Html.DisplayFor(modelItem => item.Price)</p>
+                    <p></p>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='@Url.Action("Details", "Product", new { id = item.ProductId })';">More Details</button>
+                </div>
+            </div>
+        </div>
+        <p></p>
+    }
+</div>
