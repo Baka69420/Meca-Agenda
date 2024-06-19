@@ -52,6 +52,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
         public async Task<ICollection<Users>> ListAsync()
         {
             var collection = await _context.Set<Users>()
+                .Include(x => x.Branch)
                 .OrderBy(x => x.UserId)
                 .AsNoTracking()
                 .ToListAsync();
