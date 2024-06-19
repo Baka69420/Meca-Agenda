@@ -15,7 +15,7 @@ namespace MecaAgenda.Application.DTOs
         [ValidateNever]
         public int UserId { get; set; }
 
-        [DisplayName("Name")]
+        [DisplayName("User Name")]
         [Required(ErrorMessage = "{0} is required")]
         public string Name { get; set; } = null!;
 
