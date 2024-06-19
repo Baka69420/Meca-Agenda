@@ -24,6 +24,10 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
         {
             var @object = await _context.Set<Bills>()
                 .Where(x => x.BillId == id)
+                .Include(x => x.Client)
+                .Include(x => x.Branch)
+                .Include(x => x.BillItems)
+                    .ThenInclude(x => x.Product)
                 .OrderBy(x => x.BillId)
                 .FirstOrDefaultAsync();
             return @object!;
@@ -92,7 +96,9 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
         public async Task<ICollection<Bills>> ListAsync()
         {
             var collection = await _context.Set<Bills>()
-                .OrderBy(x => x.BillId)
+                .Include(x => x.Client)
+                .Include(x => x.Branch)
+                .OrderBy(x => x.Date)
                 .AsNoTracking()
                 .ToListAsync();
             return collection;
