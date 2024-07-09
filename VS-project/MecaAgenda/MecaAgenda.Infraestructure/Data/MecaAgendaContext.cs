@@ -36,7 +36,7 @@ public partial class MecaAgendaContext : DbContext
     {
         modelBuilder.Entity<Appointments>(entity =>
         {
-            entity.HasKey(e => e.AppointmentId).HasName("PK__Appointm__8ECDFCA2EE8958A7");
+            entity.HasKey(e => e.AppointmentId).HasName("PK__Appointm__8ECDFCA20C31A9AC");
 
             entity.Property(e => e.AppointmentId).HasColumnName("AppointmentID");
             entity.Property(e => e.BranchId).HasColumnName("BranchID");
@@ -61,7 +61,7 @@ public partial class MecaAgendaContext : DbContext
 
         modelBuilder.Entity<BillItems>(entity =>
         {
-            entity.HasKey(e => e.BillItemId).HasName("PK__BillItem__47605AD5623E36C4");
+            entity.HasKey(e => e.BillItemId).HasName("PK__BillItem__47605AD567B9FD24");
 
             entity.Property(e => e.BillItemId).HasColumnName("BillItemID");
             entity.Property(e => e.BillId).HasColumnName("BillID");
@@ -80,7 +80,7 @@ public partial class MecaAgendaContext : DbContext
 
         modelBuilder.Entity<Bills>(entity =>
         {
-            entity.HasKey(e => e.BillId).HasName("PK__Bills__11F2FC4AFCF536D3");
+            entity.HasKey(e => e.BillId).HasName("PK__Bills__11F2FC4AF8047CE1");
 
             entity.Property(e => e.BillId).HasColumnName("BillID");
             entity.Property(e => e.BranchId).HasColumnName("BranchID");
@@ -99,7 +99,7 @@ public partial class MecaAgendaContext : DbContext
 
         modelBuilder.Entity<BranchSchedules>(entity =>
         {
-            entity.HasKey(e => e.ScheduleId).HasName("PK__BranchSc__9C8A5B6985E7F8CB");
+            entity.HasKey(e => e.ScheduleId).HasName("PK__BranchSc__9C8A5B695F876258");
 
             entity.Property(e => e.ScheduleId).HasColumnName("ScheduleID");
             entity.Property(e => e.BranchId).HasColumnName("BranchID");
@@ -111,7 +111,7 @@ public partial class MecaAgendaContext : DbContext
 
         modelBuilder.Entity<Branches>(entity =>
         {
-            entity.HasKey(e => e.BranchId).HasName("PK__Branches__A1682FA52325348B");
+            entity.HasKey(e => e.BranchId).HasName("PK__Branches__A1682FA5EE98835B");
 
             entity.Property(e => e.BranchId).HasColumnName("BranchID");
             entity.Property(e => e.Address).HasMaxLength(200);
@@ -123,7 +123,7 @@ public partial class MecaAgendaContext : DbContext
 
         modelBuilder.Entity<Categories>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A2BA820686F");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A2B33606074");
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Name).HasMaxLength(100);
@@ -131,7 +131,7 @@ public partial class MecaAgendaContext : DbContext
 
         modelBuilder.Entity<Products>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6ED257E36EE");
+            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6ED98BD334F");
 
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.Brand).HasMaxLength(100);
@@ -147,7 +147,7 @@ public partial class MecaAgendaContext : DbContext
 
         modelBuilder.Entity<ScheduleExceptions>(entity =>
         {
-            entity.HasKey(e => e.ExceptionId).HasName("PK__Schedule__26981DA83DE5F4CE");
+            entity.HasKey(e => e.ExceptionId).HasName("PK__Schedule__26981DA8C55D0FDF");
 
             entity.Property(e => e.ExceptionId).HasColumnName("ExceptionID");
             entity.Property(e => e.BranchId).HasColumnName("BranchID");
@@ -160,7 +160,7 @@ public partial class MecaAgendaContext : DbContext
 
         modelBuilder.Entity<Services>(entity =>
         {
-            entity.HasKey(e => e.ServiceId).HasName("PK__Services__C51BB0EAFCA3B187");
+            entity.HasKey(e => e.ServiceId).HasName("PK__Services__C51BB0EAB4501259");
 
             entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
             entity.Property(e => e.Description).HasMaxLength(255);
@@ -172,9 +172,9 @@ public partial class MecaAgendaContext : DbContext
 
         modelBuilder.Entity<Users>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC8F18121D");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC87ED736E");
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534F02F4070").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D105348CDF3485").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Address).HasMaxLength(200);
