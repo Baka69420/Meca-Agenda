@@ -1,18 +1,7 @@
 USE master;
 GO
 
-CREATE DATABASE MecaAgenda ON
-(NAME = MecaAgenda_dat,
-    FILENAME = 'C:\db\MecaAgenda\mecaagendadat.mdf',
-    SIZE = 10,
-    MAXSIZE = 50,
-    FILEGROWTH = 5)
-LOG ON
-(NAME = MecaAgenda_log,
-    FILENAME = 'C:\db\MecaAgenda\mecaagendalog.ldf',
-    SIZE = 5 MB,
-    MAXSIZE = 25 MB,
-    FILEGROWTH = 5 MB);
+CREATE DATABASE MecaAgenda;
 GO
 
 USE MecaAgenda;
