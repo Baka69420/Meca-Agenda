@@ -9,10 +9,13 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
 {
     public interface IRepositoryProduct
     {
-        Task<ICollection<Products>> ListAsync();
-        Task<ICollection<Products>> GetByCategoryAsync(int idCategory);
-        Task<ICollection<Products>> FindByNameAsync(string productName);
+        Task<int> AddAsync(Products product);
+        Task DeleteAsync(int productId);
         Task<ICollection<Products>> FindByBrandAsync(string brandName);
+        Task<ICollection<Products>> FindByNameAsync(string productName);
         Task<Products> GetAsync(int id);
+        Task<ICollection<Products>> GetByCategoryAsync(int idCategory);
+        Task<ICollection<Products>> ListAsync();
+        Task UpdateAsync(Products product);
     }
 }

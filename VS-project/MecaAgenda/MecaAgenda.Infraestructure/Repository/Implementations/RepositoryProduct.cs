@@ -19,6 +19,29 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             _context = context;
         }
 
+        public async Task<int> AddAsync(Products product)
+        {
+            await _context.Set<Products>().AddAsync(product);
+            await _context.SaveChangesAsync();
+            return product.ProductId;
+        }
+
+        public async Task DeleteAsync(int productId)
+        {
+            var productToDelete = await GetAsync(productId);
+
+            if (productToDelete != null)
+            {
+                _context.Set<Products>().Remove(productToDelete);
+
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Product with ID {productId} does not exist.");
+            }
+        }
+
         public async Task<ICollection<Products>> FindByBrandAsync(string brandName)
         {
             var collection = await _context.Set<Products>()
@@ -65,6 +88,28 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
                 .AsNoTracking()
                 .ToListAsync();
             return collection;
+        }
+
+        public async Task UpdateAsync(Products product)
+        {
+            var productToUpdate = await GetAsync(product.ProductId);
+
+            if (productToUpdate != null)
+            {
+                productToUpdate.Name = product.Name;
+                productToUpdate.Description = product.Description;
+                productToUpdate.CategoryId = product.CategoryId;
+                productToUpdate.Price = product.Price;
+                productToUpdate.Brand = product.Brand;
+                productToUpdate.StockQuantity = product.StockQuantity;
+
+                _context.Entry(productToUpdate).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Product with ID {product.ProductId} does not exist.");
+            }
         }
     }
 }
