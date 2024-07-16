@@ -9,8 +9,11 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
 {
     public interface IRepositoryBranchSchedule
     {
-        Task<ICollection<BranchSchedules>> ListAsync();
-        Task<ICollection<BranchSchedules>> GetByBranch(int idBranch);
+        Task<int> AddAsync(BranchSchedules branchSchedule);
+        Task DeleteAsync(int branchScheduleId);
         Task<BranchSchedules> GetAsync(int id);
+        Task<ICollection<BranchSchedules>> GetByBranch(int idBranch)
+        Task<ICollection<BranchSchedules>> ListAsync();
+        Task UpdateAsync(BranchSchedules branchSchedule);
     }
 }
