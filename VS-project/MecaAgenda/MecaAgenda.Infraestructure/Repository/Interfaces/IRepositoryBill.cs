@@ -9,13 +9,16 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
 {
     public interface IRepositoryBill
     {
-        Task<ICollection<Bills>> ListAsync();
-        Task<ICollection<Bills>> GetByBranchAsync(int idBranch);
-        Task<ICollection<Bills>> GetByDateAsync(DateOnly billDate);
-        Task<ICollection<Bills>> GetByClientAsync(int idClient);
+        Task<int> AddAsync(Bills bill);
+        Task DeleteAsync(int billId);
+        Task<Bills> GetAsync(int id);
         Task<ICollection<Bills>> GetByBranchAndClientAsync(int idBranch, int idClient);
         Task<ICollection<Bills>> GetByBranchAndDateAsync(int idBranch, DateOnly billDate);
+        Task<ICollection<Bills>> GetByBranchAsync(int idBranch);
         Task<ICollection<Bills>> GetByClientAndDateAsync(int idClient, DateOnly billDate);
-        Task<Bills> GetAsync(int id);
+        Task<ICollection<Bills>> GetByClientAsync(int idClient);
+        Task<ICollection<Bills>> GetByDateAsync(DateOnly billDate);
+        Task<ICollection<Bills>> ListAsync();
+        Task UpdateAsync(Bills bill);
     }
 }

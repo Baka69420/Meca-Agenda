@@ -20,6 +20,29 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             _context = context;
         }
 
+        public async Task<int> AddAsync(Bills bill)
+        {
+            await _context.Set<Bills>().AddAsync(bill);
+            await _context.SaveChangesAsync();
+            return bill.BillId;
+        }
+
+        public async Task DeleteAsync(int billId)
+        {
+            var billToDelete = await GetAsync(billId);
+
+            if (billToDelete != null)
+            {
+                _context.Set<Bills>().Remove(billToDelete);
+
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Bill with ID {billId} does not exist.");
+            }
+        }
+
         public async Task<Bills> GetAsync(int id)
         {
             var @object = await _context.Set<Bills>()
@@ -102,6 +125,26 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
                 .AsNoTracking()
                 .ToListAsync();
             return collection;
+        }
+
+        public async Task UpdateAsync(Bills bill)
+        {
+            var billToUpdate = await GetAsync(bill.BillId);
+
+            if (billToUpdate != null)
+            {
+                billToUpdate.Date = bill.Date;
+                billToUpdate.TotalAmount = bill.TotalAmount;
+                billToUpdate.PaymentMethod = bill.PaymentMethod;
+                billToUpdate.Paid = bill.Paid;
+
+                _context.Entry(billToUpdate).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Bill with ID {bill.BillId} does not exist.");
+            }
         }
     }
 }
