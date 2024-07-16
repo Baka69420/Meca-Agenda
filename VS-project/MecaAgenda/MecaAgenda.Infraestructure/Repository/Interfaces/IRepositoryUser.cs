@@ -9,9 +9,12 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
 {
     public interface IRepositoryUser
     {
-        Task<ICollection<Users>> ListAsync();
-        Task<ICollection<Users>> GetByRole(string role);
+        Task<int> AddAsync(Users user);
+        Task DeleteAsync(int userId);
         Task<ICollection<Users>> FindByNameAsync(string userName);
         Task<Users> GetAsync(int id);
+        Task<ICollection<Users>> GetByRole(string role);
+        Task<ICollection<Users>> ListAsync();
+        Task UpdateAsync(Users user);
     }
 }
