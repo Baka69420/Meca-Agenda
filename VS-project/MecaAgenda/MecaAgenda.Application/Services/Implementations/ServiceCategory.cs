@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MecaAgenda.Application.DTOs;
 using MecaAgenda.Application.Services.Interfaces;
+using MecaAgenda.Infraestructure.Models;
 using MecaAgenda.Infraestructure.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,17 @@ namespace MecaAgenda.Application.Services.Implementations
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        public async Task<int> AddAsync(CategoryDTO categoryDTO)
+        {
+            var objectMapped = _mapper.Map<Categories>(categoryDTO);
+            return await _repository.AddAsync(objectMapped);
+        }
+
+        public async Task DeleteAsync(int categoryId)
+        {
+            await _repository.DeleteAsync(categoryId);
         }
 
         public async Task<ICollection<CategoryDTO>> FindByNameAsync(string categoryName)
@@ -40,6 +52,12 @@ namespace MecaAgenda.Application.Services.Implementations
             var list = await _repository.ListAsync();
             var collection = _mapper.Map<ICollection<CategoryDTO>>(list);
             return collection;
+        }
+
+        public async Task UpdateAsync(CategoryDTO categoryDTO)
+        {
+            var objectMapped = _mapper.Map<Categories>(categoryDTO);
+            await _repository.UpdateAsync(objectMapped);
         }
     }
 }
