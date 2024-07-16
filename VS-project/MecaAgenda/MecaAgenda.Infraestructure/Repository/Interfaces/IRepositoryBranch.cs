@@ -12,7 +12,7 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
         Task<int> AddAsync(Branches branch);
         Task DeleteAsync(int branchId);
         Task<ICollection<Branches>> FindByNameAsync(string branchName);
-        Task<Branches> GetAsync(int id)
+        Task<Branches> GetAsync(int id);
         Task<ICollection<Branches>> ListAsync();
         Task UpdateAsync(Branches branch);
     }
