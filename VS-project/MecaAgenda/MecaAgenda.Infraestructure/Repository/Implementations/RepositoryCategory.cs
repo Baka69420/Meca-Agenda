@@ -19,6 +19,29 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             _context = context;
         }
 
+        public async Task<int> AddAsync(Categories category)
+        {
+            await _context.Set<Categories>().AddAsync(category);
+            await _context.SaveChangesAsync();
+            return category.CategoryId;
+        }
+
+        public async Task DeleteAsync(int categoryId)
+        {
+            var categoryToDelete = await GetAsync(categoryId);
+
+            if (categoryToDelete != null)
+            {
+                _context.Set<Categories>().Remove(categoryToDelete);
+
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Category with ID {categoryId} does not exist.");
+            }
+        }
+
         public async Task<ICollection<Categories>> FindByNameAsync(string categoryName)
         {
             var collection = await _context.Set<Categories>()
@@ -45,6 +68,23 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
                 .AsNoTracking()
                 .ToListAsync();
             return collection;
+        }
+
+        public async Task UpdateAsync(Categories category)
+        {
+            var categoryToUpdate = await GetAsync(category.CategoryId);
+
+            if (categoryToUpdate != null)
+            {
+                categoryToUpdate.Name = category.Name;
+
+                _context.Entry(categoryToUpdate).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Category with ID {category.CategoryId} does not exist.");
+            }
         }
     }
 }
