@@ -9,8 +9,11 @@ namespace MecaAgenda.Application.Services.Interfaces
 {
     public interface IServiceBranchSchedule
     {
-        Task<ICollection<BranchScheduleDTO>> ListAsync();
-        Task<ICollection<BranchScheduleDTO>> GetByBranch(int idBranch);
+        Task<int> AddAsync(BranchScheduleDTO branchScheduleDTO);
+        Task DeleteAsync(int branchScheduleId);
         Task<BranchScheduleDTO> GetAsync(int id);
+        Task<ICollection<BranchScheduleDTO>> GetByBranch(int idBranch);
+        Task<ICollection<BranchScheduleDTO>> ListAsync();
+        Task UpdateAsync(BranchScheduleDTO branchScheduleDTO);
     }
 }

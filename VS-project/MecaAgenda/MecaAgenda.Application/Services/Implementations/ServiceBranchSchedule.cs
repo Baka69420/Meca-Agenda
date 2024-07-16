@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MecaAgenda.Application.DTOs;
 using MecaAgenda.Application.Services.Interfaces;
+using MecaAgenda.Infraestructure.Models;
 using MecaAgenda.Infraestructure.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,17 @@ namespace MecaAgenda.Application.Services.Implementations
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        public async Task<int> AddAsync(BranchScheduleDTO branchScheduleDTO)
+        {
+            var objectMapped = _mapper.Map<BranchSchedules>(branchScheduleDTO);
+            return await _repository.AddAsync(objectMapped);
+        }
+
+        public async Task DeleteAsync(int branchScheduleId)
+        {
+            await _repository.DeleteAsync(branchScheduleId);
         }
 
         public async Task<BranchScheduleDTO> GetAsync(int id)
@@ -40,6 +52,12 @@ namespace MecaAgenda.Application.Services.Implementations
             var list = await _repository.ListAsync();
             var collection = _mapper.Map<ICollection<BranchScheduleDTO>>(list);
             return collection;
+        }
+
+        public async Task UpdateAsync(BranchScheduleDTO branchScheduleDTO)
+        {
+            var objectMapped = _mapper.Map<BranchSchedules>(branchScheduleDTO);
+            await _repository.UpdateAsync(objectMapped);
         }
     }
 }
