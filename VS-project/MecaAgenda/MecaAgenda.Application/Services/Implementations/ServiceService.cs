@@ -21,6 +21,17 @@ namespace MecaAgenda.Application.Services.Implementations
             _mapper = mapper;
         }
 
+        public async Task<int> AddAsync(ServiceDTO dto)
+        {
+            var objectMapped = _mapper.Map<Infraestructure.Models.Services>(dto);
+            return await _repository.AddAsync(objectMapped);
+        }
+
+        public async Task DeleteAsync(int serviceId)
+        {
+            await _repository.DeleteAsync(serviceId);
+        }
+
         public async Task<ICollection<ServiceDTO>> FindByNameAsync(string serviceName)
         {
             var list = await _repository.FindByNameAsync(serviceName);
@@ -40,6 +51,12 @@ namespace MecaAgenda.Application.Services.Implementations
             var list = await _repository.ListAsync();
             var collection = _mapper.Map<ICollection<ServiceDTO>>(list);
             return collection;
+        }
+
+        public async Task UpdateAsync(ServiceDTO dto)
+        {
+            var objectMapped = _mapper.Map<Infraestructure.Models.Services>(dto);
+            await _repository.UpdateAsync(objectMapped);
         }
     }
 }
