@@ -19,6 +19,29 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             _context = context;
         }
 
+        public async Task<int> AddAsync(Branches branch)
+        {
+            await _context.Set<Branches>().AddAsync(branch);
+            await _context.SaveChangesAsync();
+            return branch.BranchId;
+        }
+
+        public async Task DeleteAsync(int branchId)
+        {
+            var branchToDelete = await GetAsync(branchId);
+
+            if (branchToDelete != null)
+            {
+                _context.Set<Branches>().Remove(branchToDelete);
+
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Branch with ID {branchId} does not exist.");
+            }
+        }
+
         public async Task<ICollection<Branches>> FindByNameAsync(string branchName)
         {
             var collection = await _context.Set<Branches>()
@@ -45,6 +68,27 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
                 .AsNoTracking()
                 .ToListAsync();
             return collection;
+        }
+
+        public async Task UpdateAsync(Branches branch)
+        {
+            var branchToUpdate = await GetAsync(branch.BranchId);
+
+            if (branchToUpdate != null)
+            {
+                branchToUpdate.Name = branch.Name;
+                branchToUpdate.Description = branch.Description;
+                branchToUpdate.Phone = branch.Phone;
+                branchToUpdate.Address= branch.Address;
+                branchToUpdate.Email = branch.Email;
+
+                _context.Entry(branchToUpdate).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Branch with ID {branch.BranchId} does not exist.");
+            }
         }
     }
 }
