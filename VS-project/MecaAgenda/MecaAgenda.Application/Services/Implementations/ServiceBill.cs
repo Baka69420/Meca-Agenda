@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MecaAgenda.Application.DTOs;
 using MecaAgenda.Application.Services.Interfaces;
+using MecaAgenda.Infraestructure.Models;
 using MecaAgenda.Infraestructure.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,17 @@ namespace MecaAgenda.Application.Services.Implementations
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        public async Task<int> AddAsync(BillDTO billDTO)
+        {
+            var objectMapped = _mapper.Map<Bills>(billDTO);
+            return await _repository.AddAsync(objectMapped);
+        }
+
+        public async Task DeleteAsync(int billId)
+        {
+            await _repository.DeleteAsync(billId);
         }
 
         public async Task<BillDTO> GetAsync(int id)
@@ -75,6 +87,12 @@ namespace MecaAgenda.Application.Services.Implementations
             var list = await _repository.ListAsync();
             var collection = _mapper.Map<ICollection<BillDTO>>(list);
             return collection;
+        }
+
+        public async Task UpdateAsync(BillDTO billDTO)
+        {
+            var objectMapped = _mapper.Map<Bills>(billDTO);
+            await _repository.UpdateAsync(objectMapped);
         }
     }
 }
