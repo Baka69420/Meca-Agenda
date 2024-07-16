@@ -9,10 +9,13 @@ namespace MecaAgenda.Application.Services.Interfaces
 {
     public interface IServiceScheduleException
     {
-        Task<ICollection<ScheduleExceptionDTO>> ListAsync();
+        Task<int> AddAsync(ScheduleExceptionDTO scheduleExceptionDTO);
+        Task DeleteAsync(int scheduleExceptionId);
+        Task<ScheduleExceptionDTO> GetAsync(int id);
+        Task<ICollection<ScheduleExceptionDTO>> GetByBranchAndDateAsync(int idBranch, DateOnly exceptionDate);
         Task<ICollection<ScheduleExceptionDTO>> GetByBranchAsync(int idBranch);
         Task<ICollection<ScheduleExceptionDTO>> GetByDateAsync(DateOnly exceptionDate);
-        Task<ICollection<ScheduleExceptionDTO>> GetByBranchAndDateAsync(int idBranch, DateOnly exceptionDate);
-        Task<ScheduleExceptionDTO> GetAsync(int id);
+        Task<ICollection<ScheduleExceptionDTO>> ListAsync();
+        Task UpdateAsync(ScheduleExceptionDTO scheduleExceptionDTO);
     }
 }
