@@ -65,6 +65,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
         public async Task<Products> GetAsync(int id)
         {
             var @object = await _context.Set<Products>()
+                .Include(x => x.Category)
                 .Where(x => x.ProductId == id)
                 .OrderBy(x => x.ProductId)
                 .FirstOrDefaultAsync();
@@ -84,6 +85,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
         public async Task<ICollection<Products>> ListAsync()
         {
             var collection = await _context.Set<Products>()
+                .Include(x => x.Category)
                 .OrderBy(x => x.ProductId)
                 .AsNoTracking()
                 .ToListAsync();
