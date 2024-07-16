@@ -19,11 +19,11 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             _context = context;
         }
 
-        public async Task<int> AddAsync(Services entity)
+        public async Task<int> AddAsync(Services service)
         {
-            await _context.Set<Services>().AddAsync(entity);
+            await _context.Set<Services>().AddAsync(service);
             await _context.SaveChangesAsync();
-            return entity.ServiceId;
+            return service.ServiceId;
         }
 
         public async Task DeleteAsync(int serviceId)
@@ -52,10 +52,10 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return collection;
         }
 
-        public async Task<Services> GetAsync(int id)
+        public async Task<Services> GetAsync(int serviceId)
         {
             var @object = await _context.Set<Services>()
-                .Where(x => x.ServiceId == id)
+                .Where(x => x.ServiceId == serviceId)
                 .OrderBy(x => x.ServiceId)
                 .FirstOrDefaultAsync();
             return @object!;
@@ -70,25 +70,25 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return collection;
         }
 
-        public async Task UpdateAsync(Services entity)
+        public async Task UpdateAsync(Services service)
         {
-            var serviceToUpdate = await GetAsync(entity.ServiceId);
+            var serviceToUpdate = await GetAsync(service.ServiceId);
 
             if (serviceToUpdate != null)
             {
-                serviceToUpdate.Name = entity.Name;
-                serviceToUpdate.Description = entity.Description;
-                serviceToUpdate.Price = entity.Price;
-                serviceToUpdate.EstimatedTime = entity.EstimatedTime;
-                serviceToUpdate.ToolsRequired = entity.ToolsRequired;
-                serviceToUpdate.MaterialsNeeded = entity.MaterialsNeeded;
+                serviceToUpdate.Name = service.Name;
+                serviceToUpdate.Description = service.Description;
+                serviceToUpdate.Price = service.Price;
+                serviceToUpdate.EstimatedTime = service.EstimatedTime;
+                serviceToUpdate.ToolsRequired = service.ToolsRequired;
+                serviceToUpdate.MaterialsNeeded = service.MaterialsNeeded;
 
                 _context.Entry(serviceToUpdate).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             else
             {
-                throw new KeyNotFoundException($"Service with ID {entity.ServiceId} does not exist.");
+                throw new KeyNotFoundException($"Service with ID {service.ServiceId} does not exist.");
             }
         }
     }

@@ -9,11 +9,11 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
 {
     public interface IRepositoryService
     {
-        Task<int> AddAsync(Services entity);
+        Task<int> AddAsync(Services service);
         Task DeleteAsync(int serviceId);
         Task<ICollection<Services>> FindByNameAsync(string serviceName);
-        Task<Services> GetAsync(int id);
+        Task<Services> GetAsync(int serviceId);
         Task<ICollection<Services>> ListAsync();
-        Task UpdateAsync(Services entity);
+        Task UpdateAsync(Services service);
     }
 }
