@@ -20,6 +20,29 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             _context = context;
         }
 
+        public async Task<int> AddAsync(Appointments appointment)
+        {
+            await _context.Set<Appointments>().AddAsync(appointment);
+            await _context.SaveChangesAsync();
+            return appointment.AppointmentId;
+        }
+
+        public async Task DeleteAsync(int appointmentId)
+        {
+            var appointmentToDelete = await GetAsync(appointmentId);
+
+            if (appointmentToDelete != null)
+            {
+                _context.Set<Appointments>().Remove(appointmentToDelete);
+
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Appointment with ID {appointmentId} does not exist.");
+            }
+        }
+
         public async Task<Appointments> GetAsync(int id)
         {
             var @object = await _context.Set<Appointments>()
@@ -96,6 +119,30 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
                 .AsNoTracking()
                 .ToListAsync();
             return collection;
+        }
+
+        public async Task UpdateAsync(Appointments appointment)
+        {
+            var appointmentToUpdate = await GetAsync(appointment.AppointmentId);
+
+            if (appointmentToUpdate != null)
+            {
+                appointmentToUpdate.ServiceId = appointment.ServiceId;
+                appointmentToUpdate.Date = appointment.Date;
+                appointmentToUpdate.StartTime = appointment.StartTime;
+                appointmentToUpdate.EndTime = appointment.EndTime;
+                appointmentToUpdate.Status = appointment.Status;
+                appointmentToUpdate.Price = appointment.Price;
+                appointmentToUpdate.PaymentMethod = appointment.PaymentMethod;
+                appointmentToUpdate.Paid = appointment.Paid;
+
+                _context.Entry(appointmentToUpdate).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Appointment with ID {appointment.ServiceId} does not exist.");
+            }
         }
     }
 }
