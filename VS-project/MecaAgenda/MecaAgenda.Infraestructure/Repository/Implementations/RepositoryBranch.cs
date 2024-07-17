@@ -56,6 +56,8 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
         {
             var @object = await _context.Set<Branches>()
                 .Where(x => x.BranchId == id)
+                .Include(x => x.BranchSchedules.OrderBy(y => y.DayOfWeek))
+                .Include(x => x.ScheduleExceptions.OrderByDescending(y => y.Date))
                 .OrderBy(x => x.BranchId)
                 .FirstOrDefaultAsync();
             return @object!;
