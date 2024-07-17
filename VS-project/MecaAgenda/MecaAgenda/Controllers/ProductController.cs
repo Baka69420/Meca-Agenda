@@ -66,8 +66,6 @@ namespace MecaAgenda.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ProductDTO productDTO)
         {
-            productDTO.Category = await _serviceCategory.GetAsync(productDTO.CategoryId);
-
             if (!ModelState.IsValid)
             {
                 string errors = string.Join("; ", ModelState.Values
