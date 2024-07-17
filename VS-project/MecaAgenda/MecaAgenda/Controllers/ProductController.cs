@@ -55,7 +55,7 @@ namespace MecaAgenda.Web.Controllers
             return View(collection);
         }
         [HttpGet]
-        public async Task<ActionResult> CreateAsync()
+        public async Task<ActionResult> Create()
         {
             ViewBag.ListCategory = await _serviceCategory.ListAsync();
 
