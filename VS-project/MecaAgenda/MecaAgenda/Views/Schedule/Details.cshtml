@@ -48,6 +48,7 @@
 
     <h4>Schedule</h4>
     <hr />
+    @Html.ActionLink("Create Schedule", "CreateSchedule", new { branchId = Model.BranchId })
     <table class="table">
         <thead>
             <tr>
@@ -99,6 +100,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.CloseTime)
                     </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditSchedule", new { id = item.ScheduleId }) |
+                        @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId })
+                    </td>
                 </tr>
             }
         </tbody>
@@ -106,6 +111,7 @@
 
     <h4>Schedule Exceptions</h4>
     <hr />
+    @Html.ActionLink("Create Exception", "CreateException", new { branchId = Model.BranchId })
     <table class="table">
         <thead>
             <tr>
@@ -133,6 +139,10 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditException", new { id = item.ExceptionId }) |
+                        @Html.ActionLink("Delete", "DeleteException", new { id = item.ExceptionId })
                     </td>
                 </tr>
             }
