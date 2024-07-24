@@ -58,7 +58,7 @@ CREATE TABLE Products (
 CREATE TABLE BranchSchedules (
     ScheduleID INT PRIMARY KEY IDENTITY(1,1),
     BranchID INT,
-    DayOfWeek TINYINT, -- 1 (Monday) to 7 (Sunday)
+    DayOfWeek TINYINT,
     OpenTime TIME,
     CloseTime TIME,
     CONSTRAINT FK_BranchSchedules_Branch FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
@@ -67,28 +67,12 @@ CREATE TABLE BranchSchedules (
 CREATE TABLE ScheduleExceptions (
     ExceptionID INT PRIMARY KEY IDENTITY(1,1),
     BranchID INT,
+    Reason NVARCHAR(255),
     Date DATE,
     StartTime TIME,
     EndTime TIME,
     ServicesAffected NVARCHAR(255), -- List of service IDs affected
     CONSTRAINT FK_ScheduleExceptions_Branch FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
-);
-
-CREATE TABLE Appointments (
-    AppointmentID INT PRIMARY KEY IDENTITY(1,1),
-    ClientID INT,
-    BranchID INT,
-    ServiceID INT,
-    Date DATE,
-    StartTime TIME,
-    EndTime TIME,
-    Status NVARCHAR(50),
-	Price DECIMAL(10, 2),
-    PaymentMethod NVARCHAR(50),
-    Paid BIT,
-    CONSTRAINT FK_Appointments_Client FOREIGN KEY (ClientID) REFERENCES Users(UserID),
-    CONSTRAINT FK_Appointments_Branch FOREIGN KEY (BranchID) REFERENCES Branches(BranchID),
-    CONSTRAINT FK_Appointments_Service FOREIGN KEY (ServiceID) REFERENCES Services(ServiceID)
 );
 
 CREATE TABLE Bills (
@@ -101,6 +85,18 @@ CREATE TABLE Bills (
     Paid BIT,
     CONSTRAINT FK_Bills_Client FOREIGN KEY (ClientID) REFERENCES Users(UserID),
     CONSTRAINT FK_Bills_Branch FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
+);
+
+CREATE TABLE Appointments (
+    AppointmentID INT PRIMARY KEY IDENTITY(1,1),
+    BillID INT,
+    ServiceID INT,
+    StartTime TIME,
+    EndTime TIME,
+    Status NVARCHAR(50),
+	Price DECIMAL(10, 2),
+    CONSTRAINT FK_Appointments_Bill FOREIGN KEY (BillID) REFERENCES Bills(BillID),
+    CONSTRAINT FK_Appointments_Service FOREIGN KEY (ServiceID) REFERENCES Services(ServiceID)
 );
 
 CREATE TABLE BillItems (
