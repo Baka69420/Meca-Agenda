@@ -7,7 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.TotalAmount)
             </td>
             <td>
-                @if (item.Paid == true)
+                @if (item.Paid)
                 {
                     <p>Fully Paid</p>
                 }
@@ -49,11 +49,19 @@
                     <p>Not Paid</p>
                 }
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { id = item.BillId }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+            @if (!item.Paid)
+            {
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.BillId }, new { @class = "btn btn-primary" }) 
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BillId }, new { @class = "btn btn-warning" }) 
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BillId }, new { @class = "btn btn-danger" })
+                </td>
+            } else
+            {
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.BillId }, new { @class = "btn btn-primary" })
+                </td>
+            }
         </tr>
 }
     </tbody>

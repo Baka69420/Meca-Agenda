@@ -47,6 +47,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.BranchId }) |
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Edit Branch", "Edit", new { id = Model.BranchId }, new { @class = "btn btn-warning" }) 
+    <a class="btn btn-secondary" asp-action="IndexAdmin">Back to List</a>
 </div>

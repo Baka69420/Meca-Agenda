@@ -45,10 +45,13 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
     </dl>
+    @Html.ActionLink("Edit Branch", "Edit", "Branch", new { branchId = Model.BranchId }, new { @class = "btn btn-primary" })
+    <br />
+    <br />
 
     <h4>Schedule</h4>
     <hr />
-    @Html.ActionLink("Create Schedule", "CreateSchedule", new { branchId = Model.BranchId })
+    @Html.ActionLink("Create Schedule", "CreateSchedule", new { branchId = Model.BranchId }, new { @class = "btn btn-primary"})
     <table class="table">
         <thead>
             <tr>
@@ -101,17 +104,18 @@
                         @Html.DisplayFor(modelItem => item.CloseTime)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "EditSchedule", new { id = item.ScheduleId }) |
-                        @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId })
+                        @Html.ActionLink("Edit", "EditSchedule", new { id = item.ScheduleId }, new { @class = "btn btn-warning" }) 
+                        @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId }, new { @class = "btn btn-danger" })
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    <br />
 
     <h4>Schedule Exceptions</h4>
     <hr />
-    @Html.ActionLink("Create Exception", "CreateException", new { branchId = Model.BranchId })
+    @Html.ActionLink("Create Exception", "CreateException", new { branchId = Model.BranchId }, new { @class = "btn btn-primary" })
     <table class="table">
         <thead>
             <tr>
@@ -140,16 +144,22 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.EndTime)
                     </td>
-                    <td>
-                        @Html.ActionLink("Edit", "EditException", new { id = item.ExceptionId }) |
-                        @Html.ActionLink("Delete", "DeleteException", new { id = item.ExceptionId })
-                    </td>
+                    @if ( item.Date <= DateOnly.FromDateTime(DateTime.Now) )
+                    {
+                        <td></td>
+                    } else
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "EditException", new { id = item.ExceptionId }, new { @class = "btn btn-warning" }) 
+                            @Html.ActionLink("Delete", "DeleteException", new { id = item.ExceptionId }, new { @class = "btn btn-danger" })
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
     </table>
-
 </div>
+
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-secondary" asp-action="IndexAdmin">Back to List</a>
 </div>

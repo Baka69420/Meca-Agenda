@@ -127,14 +127,11 @@
             </div>
             <p></p>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" /> 
+                @Html.ActionLink("Back to Schedule", "Details", new { id = Model.BranchId }, new { @class = "btn btn-secondary" })
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

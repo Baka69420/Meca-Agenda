@@ -30,7 +30,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 var @object = await _serviceProduct.GetAsync(id.Value);
