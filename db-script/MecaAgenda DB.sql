@@ -98,7 +98,7 @@ CREATE TABLE Appointments (
 	EndTime TIME NOT NULL,
 	Status NVARCHAR(50) NOT NULL,
 	Price DECIMAL(10, 2) NOT NULL,
-	CONSTRAINT FK_Appointments_Bill FOREIGN KEY (BillID) REFERENCES Bills(BillID) ON DELETE SET NULL,
+	CONSTRAINT FK_Appointments_Bill FOREIGN KEY (BillID) REFERENCES Bills(BillID),
 	CONSTRAINT FK_Appointments_Client FOREIGN KEY (ClientID) REFERENCES Users(UserID),
 	CONSTRAINT FK_Appointments_Branch FOREIGN KEY (BranchID) REFERENCES Branches(BranchID),
 	CONSTRAINT FK_Appointments_Service FOREIGN KEY (ServiceID) REFERENCES Services(ServiceID)
