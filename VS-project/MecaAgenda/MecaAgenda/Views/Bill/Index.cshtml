@@ -40,7 +40,14 @@
                 @Html.DisplayFor(modelItem => item.TotalAmount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Paid)
+                @if (item.Paid == true)
+                {
+                    <p>Fully Paid</p>
+                }
+                else
+                {
+                    <p>Not Paid</p>
+                }
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
