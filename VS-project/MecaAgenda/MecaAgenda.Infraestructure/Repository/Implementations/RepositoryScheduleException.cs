@@ -51,7 +51,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<ScheduleExceptions>> ListAsync(int? idBranch, DateOnly? exceptionDate)
+        public async Task<ICollection<ScheduleExceptions>> ListAsync(int? idBranch, DateOnly? exceptionStartDate, DateOnly? exceptionEndDate)
         {
             var collection = await _context.Set<ScheduleExceptions>()
                 .OrderBy(x => x.ExceptionId)
@@ -61,8 +61,8 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             if (idBranch.HasValue)
                 collection = collection.Where(x => x.BranchId == idBranch.Value).ToList();
 
-            if (exceptionDate.HasValue)
-                collection = collection.Where(x => x.Date == exceptionDate.Value).ToList();
+            if (exceptionStartDate.HasValue && exceptionEndDate.HasValue)
+                collection = collection.Where(x => exceptionStartDate.Value <= x.Date && x.Date <= exceptionEndDate.Value).ToList();
 
             return collection;
         }

@@ -54,7 +54,7 @@ namespace MecaAgenda.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAppointments(int? idBranch, int? idClient, DateOnly? appointmentStartDate, DateOnly? appointmentEndDate)
         {
-            var collection = await _serviceAppointment.ListAsync(idBranch, idClient, null);
+            var collection = await _serviceAppointment.ListAsync(idBranch, idClient, appointmentStartDate, appointmentEndDate);
 
             return PartialView("_AppointmentTableAdmin", collection);
         }

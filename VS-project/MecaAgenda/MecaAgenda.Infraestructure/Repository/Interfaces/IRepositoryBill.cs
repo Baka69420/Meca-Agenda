@@ -12,7 +12,7 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
         Task<int> AddAsync(Bills bill);
         Task DeleteAsync(int billId);
         Task<Bills> GetAsync(int id);
-        Task<ICollection<Bills>> ListAsync(int? idBranch, int? idClient, DateOnly? billDate);
+        Task<ICollection<Bills>> ListAsync(int? idBranch, int? idClient, DateOnly? billStartDate, DateOnly? billEndDate);
         Task UpdateAsync(Bills bill);
     }
 }

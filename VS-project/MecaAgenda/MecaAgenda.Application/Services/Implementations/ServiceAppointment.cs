@@ -40,9 +40,9 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<AppointmentDTO>> ListAsync(int? idBranch, int? idClient, DateOnly? appointmentDate)
+        public async Task<ICollection<AppointmentDTO>> ListAsync(int? idBranch, int? idClient, DateOnly? appointmentStartDate, DateOnly? appointmentEndDate)
         {
-            var list = await _repository.ListAsync(idBranch, idClient, appointmentDate);
+            var list = await _repository.ListAsync(idBranch, idClient, appointmentStartDate, appointmentEndDate);
             var collection = _mapper.Map<ICollection<AppointmentDTO>>(list);
             return collection;
         }

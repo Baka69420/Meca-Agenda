@@ -55,7 +55,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Appointments>> ListAsync(int? idBranch, int? idClient, DateOnly? appointmentDate)
+        public async Task<ICollection<Appointments>> ListAsync(int? idBranch, int? idClient, DateOnly? appointmentStartDate, DateOnly? appointmentEndDate)
         {
             var collection = await _context.Set<Appointments>()
                 .Include(x => x.Client)
@@ -71,8 +71,8 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             if (idClient.HasValue)
                 collection = collection.Where(x => x.ClientId == idClient.Value).ToList();
 
-            if (appointmentDate.HasValue)
-                collection = collection.Where(x => x.Date == appointmentDate.Value).ToList();
+            if (appointmentStartDate.HasValue && appointmentEndDate.HasValue)
+                collection = collection.Where(x => appointmentStartDate.Value <= x.Date && x.Date <= appointmentEndDate.Value).ToList();
 
             return collection;
         }

@@ -59,14 +59,25 @@
                 });
             }
 
-            var now = new Date();
-            var month = (now.getMonth() + 1);
-            var day = now.getDate();
+            var currentDate = new Date();
+
+            for (let i = 1; i <= 15; i++) {
+                currentDate.setDate(currentDate.getDate() + 1);
+                if (currentDate.getDay() === 6) {
+                    currentDate.setDate(currentDate.getDate() + 2);
+                }
+                else if (currentDate.getDay() === 0) {
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            }
+
+            var month = (currentDate.getMonth() + 1);
+            var day = currentDate.getDate();
             if (month < 10)
                 month = "0" + month;
             if (day < 10)
                 day = "0" + day;
-            var today = now.getFullYear() + '-' + month + '-' + day;
+            var today = currentDate.getFullYear() + '-' + month + '-' + day;
 
             $('#appointmentStartFilter').attr({ "max": today })
             $('#appointmentEndFilter').attr({ "max": today })

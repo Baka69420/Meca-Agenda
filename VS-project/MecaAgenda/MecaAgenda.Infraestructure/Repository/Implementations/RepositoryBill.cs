@@ -58,7 +58,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Bills>> ListAsync(int? idBranch, int? idClient, DateOnly? billDate)
+        public async Task<ICollection<Bills>> ListAsync(int? idBranch, int? idClient, DateOnly? billStartDate, DateOnly? billEndDate)
         {
             var collection = await _context.Set<Bills>()
                 .Include(x => x.Client)
@@ -73,8 +73,8 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             if (idClient.HasValue)
                 collection = collection.Where(x => x.ClientId == idClient.Value).ToList();
 
-            if (billDate.HasValue)
-                collection = collection.Where(x => x.Date == billDate.Value).ToList();
+            if (billStartDate.HasValue && billEndDate.HasValue)
+                collection = collection.Where(x => billStartDate.Value <= x.Date && x.Date <= billEndDate.Value).ToList();
 
             return collection;
         }
