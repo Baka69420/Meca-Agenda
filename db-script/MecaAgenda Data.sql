@@ -36,11 +36,11 @@ INSERT INTO Products (CategoryID, Name, Description, Price, Brand, StockQuantity
 (1, '5w30 Oil', 'Engine Oil with 5w30 viscocity', 39.99, 'Valvoline', 50),
 (1, '10w40 Oil', 'Engine Oil with 10w40 viscocity', 39.99, 'Valvoline', 40),
 (1, '20w50 Oil', 'Engine Oil with 20w50 viscocity', 39.99, 'Valvoline', 30),
-(2, '195/65R15 Tire', 'Commonly found on compact and mid-sized sedans', 79.99, 'Bridgestone', 23);
-(2, '205/55R16 Tire', 'Popular on many compact and mid-sized cars', 89.99, 'Bridgestone', 43);
-(2, '225/45R17 Tire', 'Often used on sportier sedans and coupes', 119.99, 'Bridgestone', 8);
-(3, 'Ceramic Brake Pads', 'Known for their durability, quiet operation, and low dust production', 59.99, 'Bosch', 52);
-(3, 'Semi-Metallic Brake Pads', 'Excellent braking performance and heat dissipation, ideal for high-performance and heavy-duty applications', 29.99, 'KMX Friction', 37);
+(2, '195/65R15 Tire', 'Commonly found on compact and mid-sized sedans', 79.99, 'Bridgestone', 23),
+(2, '205/55R16 Tire', 'Popular on many compact and mid-sized cars', 89.99, 'Bridgestone', 43),
+(2, '225/45R17 Tire', 'Often used on sportier sedans and coupes', 119.99, 'Bridgestone', 8),
+(3, 'Ceramic Brake Pads', 'Known for their durability, quiet operation, and low dust production', 59.99, 'Bosch', 52),
+(3, 'Semi-Metallic Brake Pads', 'Excellent braking performance and heat dissipation, ideal for high-performance and heavy-duty applications', 29.99, 'KMX Friction', 37),
 (3, 'Organic Brake Pads (NAO)', 'Organic brake pads are quieter and produce less dust than semi-metallic pads, but they tend to wear faster and may not perform as well under extreme conditions', 19.99, 'Bosch', 28);
 
 -- Insert data into BranchSchedules table
@@ -65,7 +65,7 @@ INSERT INTO Bills (ClientID, BranchID, Date, TotalAmount, PaymentMethod, Paid) V
 (9, 2, '2024-07-02', 49.98, 'Credit Card', 1),
 (7, 3, '2024-07-03', 149.96, 'Cash', 1),
 (8, 3, '2024-07-03', 25.99, 'Credit Card', 1),
-(9, 3, '2024-07-04', 39,98, 'Credit Card', 1),
+(9, 3, '2024-07-04', 39.98, 'Credit Card', 1),
 (7, 1, '2024-07-12', 89.99, 'Cash', 1),
 (8, 2, '2024-07-13', 79.98, 'Cash', 1),
 (9, 3, '2024-07-14', 479.96, 'Credit Card', 1);
