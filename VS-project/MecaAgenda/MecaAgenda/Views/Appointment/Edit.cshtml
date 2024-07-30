@@ -1,7 +1,7 @@
 ﻿@model MecaAgenda.Application.DTOs.AppointmentDTO
 
 @{
-    ViewData["Title"] = "Create Appointment";
+    ViewData["Title"] = "Edit Appointment";
 
     var branchOptions = ViewBag.Branches as IEnumerable<SelectListItem>;
     var clientOptions = ViewBag.Clients as IEnumerable<SelectListItem>;
@@ -12,32 +12,41 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateAdmin">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="AppointmentId" class="control-label"></label>
+                <input asp-for="AppointmentId" readonly class="form-control" />
+                <span asp-validation-for="AppointmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Client" class="control-label"></label>
-                <select asp-for="ClientId" asp-items="@(clientOptions)" class="form-control"></select>
+                <input asp-for="ClientId" hidden class="form-control" />
+                <select asp-for="ClientId" asp-items="@(clientOptions)" disabled class="form-control"></select>
                 <span asp-validation-for="ClientId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Branch" class="control-label"></label>
-                <select id="branchId" asp-for="BranchId" asp-items="@(branchOptions)" class="form-control"></select>
+                <input asp-for="BranchId" hidden class="form-control" />
+                <select id="branchId" asp-for="BranchId" asp-items="@(branchOptions)" disabled class="form-control"></select>
                 <span asp-validation-for="BranchId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Service" class="control-label"></label>
-                <select id="serviceDropDown" asp-for="ServiceId" asp-items="@(serviceOptions)" class="form-control"></select>
+                <input asp-for="ServiceId" hidden class="form-control" />
+                <select id="serviceDropDown" asp-for="ServiceId" asp-items="@(serviceOptions)" disabled class="form-control"></select>
                 <span asp-validation-for="ServiceId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="Status" type="hidden" class="form-control" value="Scheduled" />
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" readonly class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input id="servicePrice" type="number" readonly asp-for="Price" class="form-control" />
+                <input asp-for="Price" readonly class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
                 <input id="appointmentDate" type="date" asp-for="Date" class="form-control" />
@@ -45,7 +54,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartTime" class="control-label"></label>
-                <input id="appointmentStart" type="time" readonly asp-for="StartTime" class="form-control" />
+                <input id="appointmentStart" type="time" asp-for="StartTime" class="form-control" />
                 <span asp-validation-for="StartTime" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -55,8 +64,8 @@
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" /> 
-                <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-action="IndexAdmin">Back to List</a>
             </div>
         </form>
     </div>

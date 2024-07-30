@@ -209,5 +209,132 @@ namespace MecaAgenda.Web.Controllers
 
             return RedirectToAction("Details", new { id = appointmentId });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return RedirectToAction("IndexAdmin");
+                }
+
+                var @object = await _serviceAppointment.GetAsync(id.Value);
+
+                if (@object == null)
+                {
+                    throw new Exception("Appointment does not exist");
+                }
+
+                var branches = await _serviceBranch.ListAsync("");
+                var clients = await _serviceUser.ListAsync("client", "");
+                var services = await _serviceService.ListAsync("");
+
+                var branchOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "", Text = "--- Select a Branch ---" }
+                };
+                var clientOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "", Text = "--- Select a Client ---" }
+                };
+                var serviceOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "", Text = "--- Select a Service ---" }
+                };
+
+                branchOptions.AddRange(branches.Select(item => new SelectListItem
+                {
+                    Value = item.BranchId.ToString(),
+                    Text = item.Name
+                }));
+                clientOptions.AddRange(clients.Select(item => new SelectListItem
+                {
+                    Value = item.UserId.ToString(),
+                    Text = item.Name
+                }));
+                serviceOptions.AddRange(services.Select(item => new SelectListItem
+                {
+                    Value = item.ServiceId.ToString(),
+                    Text = item.Name
+                }));
+
+                ViewBag.Branches = branchOptions;
+                ViewBag.Clients = clientOptions;
+                ViewBag.Services = serviceOptions;
+
+                return View(@object);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(AppointmentDTO appointmentDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Join("; ", ModelState.Values
+                    .SelectMany(x => x.Errors)
+                    .Select(x => x.ErrorMessage));
+                ViewBag.ErrorMessage = errors;
+                return View();
+            }
+
+            await _serviceAppointment.UpdateAsync(appointmentDTO);
+
+            return RedirectToAction("Details", new { id = appointmentDTO.AppointmentId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return RedirectToAction("IndexAdmin");
+                }
+
+                var @object = await _serviceAppointment.GetAsync(id.Value);
+
+                if (@object == null)
+                {
+                    throw new Exception("Appointment does not exist");
+                }
+
+                return View(@object);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int? id, IFormCollection collection)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("IndexAdmin");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Join("; ", ModelState.Values
+                    .SelectMany(x => x.Errors)
+                    .Select(x => x.ErrorMessage));
+                ViewBag.ErrorMessage = errors;
+                return View();
+            }
+
+            await _serviceAppointment.DeleteAsync(id.Value);
+            return RedirectToAction("IndexAdmin");
+        }
     }
 }
