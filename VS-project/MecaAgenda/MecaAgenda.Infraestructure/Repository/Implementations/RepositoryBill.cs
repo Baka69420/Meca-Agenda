@@ -51,6 +51,8 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
                 .Include(x => x.Branch)
                 .Include(x => x.BillItems)
                     .ThenInclude(x => x.Product)
+                .Include(x => x.Appointments)
+                    .ThenInclude(x => x.Service)
                 .OrderBy(x => x.BillId)
                 .FirstOrDefaultAsync();
             return @object!;
