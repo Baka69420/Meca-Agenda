@@ -133,8 +133,6 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
                 appointmentToUpdate.EndTime = appointment.EndTime;
                 appointmentToUpdate.Status = appointment.Status;
                 appointmentToUpdate.Price = appointment.Price;
-                appointmentToUpdate.PaymentMethod = appointment.PaymentMethod;
-                appointmentToUpdate.Paid = appointment.Paid;
 
                 _context.Entry(appointmentToUpdate).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
