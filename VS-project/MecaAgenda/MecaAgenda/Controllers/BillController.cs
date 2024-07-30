@@ -16,7 +16,7 @@ namespace MecaAgenda.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
-            var collection = await _serviceBill.ListAsync();
+            var collection = await _serviceBill.ListAsync(null, null, null);
             return View(collection);
         }
 

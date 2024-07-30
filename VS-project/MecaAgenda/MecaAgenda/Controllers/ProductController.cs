@@ -19,7 +19,7 @@ namespace MecaAgenda.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var collection = await _serviceProduct.ListAsync();
+            var collection = await _serviceProduct.ListAsync(null, "", "");
             return View(collection);
         }
 
@@ -51,13 +51,13 @@ namespace MecaAgenda.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
-            var collection = await _serviceProduct.ListAsync();
+            var collection = await _serviceProduct.ListAsync(null, "", "");
             return View(collection);
         }
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            ViewBag.ListCategory = await _serviceCategory.ListAsync();
+            ViewBag.ListCategory = await _serviceCategory.ListAsync("");
 
             return View();
         }
@@ -82,7 +82,7 @@ namespace MecaAgenda.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int? id)
         {
-            ViewBag.ListCategory = await _serviceCategory.ListAsync();
+            ViewBag.ListCategory = await _serviceCategory.ListAsync("");
 
             try
             {

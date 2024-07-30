@@ -15,7 +15,7 @@ namespace MecaAgenda.Web.Controllers
 
         public async Task<IActionResult> IndexAdmin()
         {
-            var collection = await _serviceAppointment.ListAsync();
+            var collection = await _serviceAppointment.ListAsync(null, null, null);
 
             return View(collection);
         }
