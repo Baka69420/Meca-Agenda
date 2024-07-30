@@ -17,7 +17,7 @@ namespace MecaAgenda.Application.DTOs
 
         [Display(Name = "Bill ID")]
         [ValidateNever]
-        public int BillId { get; set; }
+        public int? BillId { get; set; }
 
         [DisplayName("Client ID")]
         [Required(ErrorMessage = "{0} is required")]

@@ -1,0 +1,200 @@
+﻿@model MecaAgenda.Application.DTOs.AppointmentDTO
+
+@{
+    ViewData["Title"] = "Create Appointment";
+
+    var branchOptions = ViewBag.Branches as IEnumerable<SelectListItem>;
+    var clientOptions = ViewBag.Clients as IEnumerable<SelectListItem>;
+    var serviceOptions = ViewBag.Services as IEnumerable<SelectListItem>;
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateAdmin">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Client" class="control-label"></label>
+                <select asp-for="ClientId" asp-items="@(clientOptions)" class="form-control"></select>
+                <span asp-validation-for="ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Branch" class="control-label"></label>
+                <select id="branchId" asp-for="BranchId" asp-items="@(branchOptions)" class="form-control"></select>
+                <span asp-validation-for="BranchId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service" class="control-label"></label>
+                <select id="serviceDropDown" asp-for="ServiceId" asp-items="@(serviceOptions)" class="form-control"></select>
+                <span asp-validation-for="ServiceId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Status" type="hidden" class="form-control" value="Scheduled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input id="servicePrice" type="number" readonly asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input id="appointmentDate" type="date" asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input id="appointmentStart" type="time" readonly asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndTime" class="control-label"></label>
+                <input id="appointmentEnd" type="time" readonly asp-for="EndTime" class="form-control" />
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" /> 
+                <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+
+            function loadPrice(id) {
+                $.ajax({
+                    url: '@Url.Action("ServicePrice")',
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (data) {
+                        $('#servicePrice').val(data);
+                    },
+                    error: function () {
+                        alert('Error retrieving data.');
+                    }
+                });
+            }
+
+            function checkAppointmentStart() {
+                if ($('#branchId').val() != null && $('#appointmentDate').val() != "") {
+                    $.ajax({
+                        url: '@Url.Action("BranchSchedule")',
+                        type: 'GET',
+                        data: { id: $('#branchId').val(), date: $('#appointmentDate').val() },
+                        success: function (data) {
+                            if (data) {
+                                $('#appointmentStart').attr({
+                                    "readonly": false,
+                                    "min": data.openTime,
+                                    "max": data.closeTime
+                                });
+                            }
+
+                        },
+                        error: function () {
+                            $('#appointmentStart').attr({ "readonly": true });
+                            $('#appointmentStart').val("");
+                            alert('Error retrieving data.');
+
+                        }
+                    });
+                } else {
+                    $('#appointmentStart').attr({ "readonly": true });
+                    $('#appointmentStart').val("");
+                }
+            }
+
+            function checkAppointmentEnd() {
+                if ($('#serviceDropDown').val() != null && $('#appointmentStart').val() != false) {
+                    $.ajax({
+                        url: '@Url.Action("ServiceTime")',
+                        type: 'GET',
+                        data: { id: $('#branchId').val(), time: $('#appointmentStart').val() },
+                        success: function (data) {
+                            $('#appointmentEnd').val(data);
+                        },
+                        error: function () {
+                            $('#appointmentEnd').val("");
+                            alert('Error retrieving data.');
+
+                        }
+                    });
+                } else {
+                    $('#appointmentEnd').val("");
+                }
+            }
+
+            var currentDate = new Date();
+
+            for (let i = 1; i <= 1; i++) {
+                currentDate.setDate(currentDate.getDate() + 1);
+                if (currentDate.getDay() === 6) {
+                    currentDate.setDate(currentDate.getDate() + 2);
+                }
+                else if (currentDate.getDay() === 0) {
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            }
+
+            var month = (currentDate.getMonth() + 1);
+            var day = currentDate.getDate();
+            if (month < 10)
+                month = "0" + month;
+            if (day < 10)
+                day = "0" + day;
+            var today = currentDate.getFullYear() + '-' + month + '-' + day;
+
+            $('#appointmentDate').attr({ "min": today });
+
+
+            for (let i = 1; i <= 14; i++) {
+                currentDate.setDate(currentDate.getDate() + 1);
+                if (currentDate.getDay() === 6) {
+                    currentDate.setDate(currentDate.getDate() + 2);
+                }
+                else if (currentDate.getDay() === 0) {
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            }
+
+            var month = (currentDate.getMonth() + 1);
+            var day = currentDate.getDate();
+            if (month < 10)
+                month = "0" + month;
+            if (day < 10)
+                day = "0" + day;
+            var today = currentDate.getFullYear() + '-' + month + '-' + day;
+
+            $('#appointmentDate').attr({ "max": today });
+
+            loadPrice(null, null, null, null);
+
+            $('#serviceDropDown').change(function () {
+                var idService = $('#serviceDropDown').val() == "" ? null : $('#serviceDropDown').val();
+
+                loadPrice(idService);
+                checkAppointmentEnd();
+            });
+
+            $('#branchId').change(function () {
+                checkAppointmentStart();
+            });
+
+            $('#appointmentDate').change(function () {
+                checkAppointmentStart();
+            });
+
+            $('#appointmentStart').change(function () {
+                checkAppointmentEnd();
+            });
+        });
+    </script>
+}
