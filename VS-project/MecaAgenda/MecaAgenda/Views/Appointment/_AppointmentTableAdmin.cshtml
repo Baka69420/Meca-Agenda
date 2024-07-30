@@ -1,0 +1,75 @@
+﻿@model IEnumerable<MecaAgenda.Application.DTOs.AppointmentDTO>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Branch.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Service.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (Model != null) {
+        foreach (var item in Model) {
+            string rowClass = "";
+
+            switch (item.Status)
+            {
+                case "Completed":
+                    rowClass = "table-success";
+                    break;
+                case "Cancel":
+                    rowClass = "table-danger";
+                    break;
+                default:
+                    rowClass = "";
+                    break;
+            }
+
+            <tr class="@rowClass">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date) @Html.DisplayFor(modelItem => item.StartTime)-@Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Branch.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Service.Name)
+                </td>
+                @if(item.Status == "Scheduled") {
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-primary" }) 
+                        @Html.ActionLink("Edit", "Edit", new { id = item.AppointmentId }, new { @class = "btn btn-warning" }) 
+                        @Html.ActionLink("Delete", "Delete", new { id = item.AppointmentId }, new { @class = "btn btn-danger" })
+                    </td>
+                } else
+                {
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-primary" })
+                    </td>
+                }
+            </tr>
+        }
+    } else
+    {
+        <tr>
+            <td colspan="5">
+                "No Appointments were found"
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
