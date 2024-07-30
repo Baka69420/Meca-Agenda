@@ -50,10 +50,10 @@ INSERT INTO BranchSchedules (BranchID, DayOfWeek, OpenTime, CloseTime) VALUES
 (3, 1, '08:00', '17:00'), (3, 2, '08:00', '17:00'), (3, 3, '08:00', '17:00'), (3, 4, '08:00', '17:00'), (3, 5, '08:00', '17:00');
 
 -- Insert data into ScheduleExceptions table
-INSERT INTO ScheduleExceptions (BranchID, Date, StartTime, EndTime, ServicesAffected) VALUES
-(1, '2024-12-25', '00:00', '23:59', '1,2,3'), (1, '2024-01-01', '00:00', '23:59', '1,3'), (1, '2024-07-04', '00:00', '23:59', '2'),
-(2, '2024-12-25', '00:00', '23:59', '1,2,3'), (2, '2024-01-01', '00:00', '23:59', '1,3'), (2, '2024-07-04', '00:00', '23:59', '2'),
-(3, '2024-12-25', '00:00', '23:59', '1,2,3'), (3, '2024-01-01', '00:00', '23:59', '1,3'), (3, '2024-07-04', '00:00', '23:59', '2');
+INSERT INTO ScheduleExceptions (BranchID, Reason, Date, StartTime, EndTime, ServicesAffected) VALUES
+(1, 'Holidays', '2024-12-25', '00:00', '23:59', '1,2,3'), (1, 'Holidays', '2024-01-01', '00:00', '23:59', '1,3'), (1, 'Vacations', '2024-07-04', '00:00', '23:59', '2'),
+(2, 'Holidays', '2024-12-25', '00:00', '23:59', '1,2,3'), (2, 'Holidays', '2024-01-01', '00:00', '23:59', '1,3'), (2, 'Vacations', '2024-07-04', '00:00', '23:59', '2'),
+(3, 'Holidays', '2024-12-25', '00:00', '23:59', '1,2,3'), (3, 'Holidays', '2024-01-01', '00:00', '23:59', '1,3'), (3, 'Vacations', '2024-07-04', '00:00', '23:59', '2');
 
 -- Insert data into Bills table
 INSERT INTO Bills (ClientID, BranchID, Date, TotalAmount, PaymentMethod, Paid) VALUES
