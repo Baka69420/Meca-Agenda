@@ -12,8 +12,7 @@ namespace MecaAgenda.Application.Services.Interfaces
         Task<int> AddAsync(BranchScheduleDTO branchScheduleDTO);
         Task DeleteAsync(int branchScheduleId);
         Task<BranchScheduleDTO> GetAsync(int id);
-        Task<ICollection<BranchScheduleDTO>> GetByBranch(int idBranch);
-        Task<ICollection<BranchScheduleDTO>> ListAsync();
+        Task<ICollection<BranchScheduleDTO>> ListAsync(int? idBranch);
         Task UpdateAsync(BranchScheduleDTO branchScheduleDTO);
     }
 }

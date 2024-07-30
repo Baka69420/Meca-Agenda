@@ -12,8 +12,7 @@ namespace MecaAgenda.Application.Services.Interfaces
         Task<int> AddAsync(BillItemDTO BillItemDTO);
         Task DeleteAsync(int billId);
         Task<BillItemDTO> GetAsync(int id);
-        Task<ICollection<BillItemDTO>> GetByBillAsync(int idBill);
-        Task<ICollection<BillItemDTO>> ListAsync();
+        Task<ICollection<BillItemDTO>> ListAsync(int? idBill);
         Task UpdateAsync(BillItemDTO BillItemDTO);
     }
 }

@@ -40,51 +40,9 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<AppointmentDTO>> GetByBranchAndClientAsync(int idBranch, int idClient)
+        public async Task<ICollection<AppointmentDTO>> ListAsync(int? idBranch, int? idClient, DateOnly? appointmentDate)
         {
-            var list = await _repository.GetByBranchAndClientAsync(idBranch, idClient);
-            var collection = _mapper.Map<ICollection<AppointmentDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<AppointmentDTO>> GetByBranchAndDateAsync(int idBranch, DateOnly appointmentDate)
-        {
-            var list = await _repository.GetByBranchAndDateAsync(idBranch, appointmentDate);
-            var collection = _mapper.Map<ICollection<AppointmentDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<AppointmentDTO>> GetByBranchAsync(int idBranch)
-        {
-            var list = await _repository.GetByBranchAsync(idBranch);
-            var collection = _mapper.Map<ICollection<AppointmentDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<AppointmentDTO>> GetByClientAndDateAsync(int idClient, DateOnly appointmentDate)
-        {
-            var list = await _repository.GetByClientAndDateAsync(idClient, appointmentDate);
-            var collection = _mapper.Map<ICollection<AppointmentDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<AppointmentDTO>> GetByClientAsync(int idClient)
-        {
-            var list = await _repository.GetByClientAsync(idClient);
-            var collection = _mapper.Map<ICollection<AppointmentDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<AppointmentDTO>> GetByDateAsync(DateOnly appointmentDate)
-        {
-            var list = await _repository.GetByDateAsync(appointmentDate);
-            var collection = _mapper.Map<ICollection<AppointmentDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<AppointmentDTO>> ListAsync()
-        {
-            var list = await _repository.ListAsync();
+            var list = await _repository.ListAsync(idBranch, idClient, appointmentDate);
             var collection = _mapper.Map<ICollection<AppointmentDTO>>(list);
             return collection;
         }

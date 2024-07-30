@@ -33,20 +33,6 @@ namespace MecaAgenda.Application.Services.Implementations
             await _repository.DeleteAsync(productId);
         }
 
-        public async Task<ICollection<ProductDTO>> FindByBrandAsync(string brandName)
-        {
-            var list = await _repository.FindByBrandAsync(brandName);
-            var collection = _mapper.Map<ICollection<ProductDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<ProductDTO>> FindByNameAsync(string productName)
-        {
-            var list = await _repository.FindByNameAsync(productName);
-            var collection = _mapper.Map<ICollection<ProductDTO>>(list);
-            return collection;
-        }
-
         public async Task<ProductDTO> GetAsync(int id)
         {
             var @object = await _repository.GetAsync(id);
@@ -54,16 +40,9 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<ProductDTO>> GetByCategoryAsync(int idCategory)
+        public async Task<ICollection<ProductDTO>> ListAsync(int? idCategory, string brandName, string productName)
         {
-            var list = await _repository.GetByCategoryAsync(idCategory);
-            var collection = _mapper.Map<ICollection<ProductDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<ProductDTO>> ListAsync()
-        {
-            var list = await _repository.ListAsync();
+            var list = await _repository.ListAsync(idCategory, brandName, productName);
             var collection = _mapper.Map<ICollection<ProductDTO>>(list);
             return collection;
         }

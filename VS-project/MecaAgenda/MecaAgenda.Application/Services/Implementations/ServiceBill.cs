@@ -40,51 +40,9 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<BillDTO>> GetByBranchAndClientAsync(int idBranch, int idClient)
+        public async Task<ICollection<BillDTO>> ListAsync(int? idBranch, int? idClient, DateOnly? billDate)
         {
-            var list = await _repository.GetByBranchAndClientAsync(idBranch, idClient);
-            var collection = _mapper.Map<ICollection<BillDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<BillDTO>> GetByBranchAndDateAsync(int idBranch, DateOnly billDate)
-        {
-            var list = await _repository.GetByBranchAndDateAsync(idBranch, billDate);
-            var collection = _mapper.Map<ICollection<BillDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<BillDTO>> GetByBranchAsync(int idBranch)
-        {
-            var list = await _repository.GetByBranchAsync(idBranch);
-            var collection = _mapper.Map<ICollection<BillDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<BillDTO>> GetByClientAndDateAsync(int idClient, DateOnly billDate)
-        {
-            var list = await _repository.GetByClientAndDateAsync(idClient, billDate);
-            var collection = _mapper.Map<ICollection<BillDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<BillDTO>> GetByClientAsync(int idClient)
-        {
-            var list = await _repository.GetByClientAsync(idClient);
-            var collection = _mapper.Map<ICollection<BillDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<BillDTO>> GetByDateAsync(DateOnly billDate)
-        {
-            var list = await _repository.GetByDateAsync(billDate);
-            var collection = _mapper.Map<ICollection<BillDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<BillDTO>> ListAsync()
-        {
-            var list = await _repository.ListAsync();
+            var list = await _repository.ListAsync(idBranch, idClient, billDate);
             var collection = _mapper.Map<ICollection<BillDTO>>(list);
             return collection;
         }

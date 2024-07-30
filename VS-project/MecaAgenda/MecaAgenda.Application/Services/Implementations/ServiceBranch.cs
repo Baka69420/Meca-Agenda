@@ -33,13 +33,6 @@ namespace MecaAgenda.Application.Services.Implementations
             await _repository.DeleteAsync(branchId);
         }
 
-        public async Task<ICollection<BranchDTO>> FindByNameAsync(string branchName)
-        {
-            var list = await _repository.FindByNameAsync(branchName);
-            var collection = _mapper.Map<ICollection<BranchDTO>>(list);
-            return collection;
-        }
-
         public async Task<BranchDTO> GetAsync(int id)
         {
             var @object = await _repository.GetAsync(id);
@@ -47,9 +40,9 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<BranchDTO>> ListAsync()
+        public async Task<ICollection<BranchDTO>> ListAsync(string branchName)
         {
-            var list = await _repository.ListAsync();
+            var list = await _repository.ListAsync(branchName);
             var collection = _mapper.Map<ICollection<BranchDTO>>(list);
             return collection;
         }

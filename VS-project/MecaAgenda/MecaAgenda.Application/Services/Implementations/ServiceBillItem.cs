@@ -41,16 +41,9 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<BillItemDTO>> GetByBillAsync(int idBill)
+        public async Task<ICollection<BillItemDTO>> ListAsync(int? idBill)
         {
-            var list = await _repository.GetByBillAsync(idBill);
-            var collection = _mapper.Map<ICollection<BillItemDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<BillItemDTO>> ListAsync()
-        {
-            var list = await _repository.ListAsync();
+            var list = await _repository.ListAsync(idBill);
             var collection = _mapper.Map<ICollection<BillItemDTO>>(list);
             return collection;
         }

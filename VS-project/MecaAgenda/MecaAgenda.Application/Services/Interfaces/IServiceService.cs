@@ -11,9 +11,8 @@ namespace MecaAgenda.Application.Services.Interfaces
     {
         Task<int> AddAsync(ServiceDTO serviceDTO);
         Task DeleteAsync(int serviceId);
-        Task<ICollection<ServiceDTO>> FindByNameAsync(string serviceName);
         Task<ServiceDTO> GetAsync(int id);
-        Task<ICollection<ServiceDTO>> ListAsync();
+        Task<ICollection<ServiceDTO>> ListAsync(string serviceName);
         Task UpdateAsync(ServiceDTO serviceDTO);
     }
 }

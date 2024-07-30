@@ -33,13 +33,6 @@ namespace MecaAgenda.Application.Services.Implementations
             await _repository.DeleteAsync(categoryId);
         }
 
-        public async Task<ICollection<CategoryDTO>> FindByNameAsync(string categoryName)
-        {
-            var list = await _repository.FindByNameAsync(categoryName);
-            var collection = _mapper.Map<ICollection<CategoryDTO>>(list);
-            return collection;
-        }
-
         public async Task<CategoryDTO> GetAsync(int id)
         {
             var @object = await _repository.GetAsync(id);
@@ -47,9 +40,9 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<CategoryDTO>> ListAsync()
+        public async Task<ICollection<CategoryDTO>> ListAsync(string categoryName)
         {
-            var list = await _repository.ListAsync();
+            var list = await _repository.ListAsync(categoryName);
             var collection = _mapper.Map<ICollection<CategoryDTO>>(list);
             return collection;
         }

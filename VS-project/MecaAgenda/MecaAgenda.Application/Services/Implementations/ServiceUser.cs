@@ -33,13 +33,6 @@ namespace MecaAgenda.Application.Services.Implementations
             await _repository.DeleteAsync(userId);
         }
 
-        public async Task<ICollection<UserDTO>> FindByNameAsync(string userName)
-        {
-            var list = await _repository.FindByNameAsync(userName);
-            var collection = _mapper.Map<ICollection<UserDTO>>(list);
-            return collection;
-        }
-
         public async Task<UserDTO> GetAsync(int id)
         {
             var @object = await _repository.GetAsync(id);
@@ -47,16 +40,9 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<UserDTO>> GetByRole(string role)
+        public async Task<ICollection<UserDTO>> ListAsync(string role, string userName)
         {
-            var list = await _repository.GetByRole(role);
-            var collection = _mapper.Map<ICollection<UserDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<UserDTO>> ListAsync()
-        {
-            var list = await _repository.ListAsync();
+            var list = await _repository.ListAsync(role, userName);
             var collection = _mapper.Map<ICollection<UserDTO>>(list);
             return collection;
         }

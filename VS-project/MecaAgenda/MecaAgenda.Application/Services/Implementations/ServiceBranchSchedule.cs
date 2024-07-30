@@ -40,16 +40,9 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<BranchScheduleDTO>> GetByBranch(int idBranch)
+        public async Task<ICollection<BranchScheduleDTO>> ListAsync(int? idBranch)
         {
-            var list = await _repository.GetByBranch(idBranch);
-            var collection = _mapper.Map<ICollection<BranchScheduleDTO>>(list);
-            return collection;
-        }
-
-        public async Task<ICollection<BranchScheduleDTO>> ListAsync()
-        {
-            var list = await _repository.ListAsync();
+            var list = await _repository.ListAsync(idBranch);
             var collection = _mapper.Map<ICollection<BranchScheduleDTO>>(list);
             return collection;
         }
