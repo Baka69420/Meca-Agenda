@@ -123,7 +123,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             var collection = await _context.Set<Bills>()
                 .Include(x => x.Client)
                 .Include(x => x.Branch)
-                .OrderBy(x => x.Date)
+                .OrderByDescending(x => x.Date)
                 .AsNoTracking()
                 .ToListAsync();
             return collection;

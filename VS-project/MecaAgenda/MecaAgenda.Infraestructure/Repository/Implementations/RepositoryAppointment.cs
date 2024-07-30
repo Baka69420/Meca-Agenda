@@ -47,6 +47,9 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
         {
             var @object = await _context.Set<Appointments>()
                 .Where(x => x.AppointmentId == id)
+                .Include(x => x.Client)
+                .Include(x => x.Branch)
+                .Include(x => x.Service)
                 .OrderBy(x => x.AppointmentId)
                 .FirstOrDefaultAsync();
             return @object!;
@@ -115,7 +118,10 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
         public async Task<ICollection<Appointments>> ListAsync()
         {
             var collection = await _context.Set<Appointments>()
-                .OrderBy(x => x.AppointmentId)
+                .Include(x => x.Client)
+                .Include(x => x.Branch)
+                .Include(x => x.Service)
+                .OrderByDescending(x => x.Date)
                 .AsNoTracking()
                 .ToListAsync();
             return collection;
