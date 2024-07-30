@@ -51,22 +51,16 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<BranchSchedules>> GetByBranch(int idBranch)
+        public async Task<ICollection<BranchSchedules>> ListAsync(int? idBranch)
         {
             var collection = await _context.Set<BranchSchedules>()
-                .Where(x => x.BranchId == idBranch)
                 .OrderBy(x => x.ScheduleId)
                 .AsNoTracking()
                 .ToListAsync();
-            return collection;
-        }
 
-        public async Task<ICollection<BranchSchedules>> ListAsync()
-        {
-            var collection = await _context.Set<BranchSchedules>()
-                .OrderBy(x => x.ScheduleId)
-                .AsNoTracking()
-                .ToListAsync();
+            if(idBranch.HasValue)
+                collection = collection.Where(x => x.BranchId == idBranch.Value).ToList();
+
             return collection;
         }
 

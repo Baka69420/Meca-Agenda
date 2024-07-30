@@ -55,67 +55,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Appointments>> GetByBranchAndClientAsync(int idBranch, int idClient)
-        {
-            var collection = await _context.Set<Appointments>()
-                .Where(x => x.BranchId == idBranch && x.ClientId == idClient)
-                .OrderBy(x => x.AppointmentId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Appointments>> GetByBranchAndDateAsync(int idBranch, DateOnly appointmentDate)
-        {
-            var collection = await _context.Set<Appointments>()
-                .Where(x => x.BranchId == idBranch && x.Date == appointmentDate)
-                .OrderBy(x => x.AppointmentId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Appointments>> GetByBranchAsync(int idBranch)
-        {
-            var collection = await _context.Set<Appointments>()
-                .Where(x => x.BranchId == idBranch)
-                .OrderBy(x => x.AppointmentId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Appointments>> GetByClientAndDateAsync(int idClient, DateOnly appointmentDate)
-        {
-            var collection = await _context.Set<Appointments>()
-                .Where(x => x.ClientId == idClient && x.Date == appointmentDate)
-                .OrderBy(x => x.AppointmentId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Appointments>> GetByClientAsync(int idClient)
-        {
-            var collection = await _context.Set<Appointments>()
-                .Where(x => x.ClientId == idClient)
-                .OrderBy(x => x.AppointmentId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Appointments>> GetByDateAsync(DateOnly appointmentDate)
-        {
-            var collection = await _context.Set<Appointments>()
-                .Where(x => x.Date == appointmentDate)
-                .OrderBy(x => x.AppointmentId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Appointments>> ListAsync()
+        public async Task<ICollection<Appointments>> ListAsync(int? idBranch, int? idClient, DateOnly? appointmentDate)
         {
             var collection = await _context.Set<Appointments>()
                 .Include(x => x.Client)
@@ -124,6 +64,16 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
                 .OrderByDescending(x => x.Date)
                 .AsNoTracking()
                 .ToListAsync();
+
+            if (idBranch.HasValue)
+                collection = collection.Where(x => x.BranchId == idBranch.Value).ToList();
+
+            if (idClient.HasValue)
+                collection = collection.Where(x => x.ClientId == idClient.Value).ToList();
+
+            if (appointmentDate.HasValue)
+                collection = collection.Where(x => x.Date == appointmentDate.Value).ToList();
+
             return collection;
         }
 

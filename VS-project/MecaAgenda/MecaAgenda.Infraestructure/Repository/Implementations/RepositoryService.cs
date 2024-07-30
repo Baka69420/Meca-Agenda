@@ -42,16 +42,6 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             }
         }
 
-        public async Task<ICollection<Services>> FindByNameAsync(string serviceName)
-        {
-            var collection = await _context.Set<Services>()
-                .Where(x => x.Name!.Contains(serviceName))
-                .OrderBy(x => x.ServiceId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
         public async Task<Services> GetAsync(int serviceId)
         {
             var @object = await _context.Set<Services>()
@@ -61,12 +51,16 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Services>> ListAsync()
+        public async Task<ICollection<Services>> ListAsync(string serviceName)
         {
             var collection = await _context.Set<Services>()
                 .OrderBy(x => x.ServiceId)
                 .AsNoTracking()
                 .ToListAsync();
+
+            if (!string.IsNullOrEmpty(serviceName))
+                collection = collection.Where(x => x.Name!.Contains(serviceName)).ToList();
+
             return collection;
         }
 

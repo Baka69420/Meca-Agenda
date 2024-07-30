@@ -51,42 +51,19 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<ScheduleExceptions>> GetByBranchAndDateAsync(int idBranch, DateOnly exceptionDate)
+        public async Task<ICollection<ScheduleExceptions>> ListAsync(int? idBranch, DateOnly? exceptionDate)
         {
             var collection = await _context.Set<ScheduleExceptions>()
-                .Where(x => x.BranchId == idBranch && x.Date == exceptionDate)
                 .OrderBy(x => x.ExceptionId)
                 .AsNoTracking()
                 .ToListAsync();
-            return collection;
-        }
 
-        public async Task<ICollection<ScheduleExceptions>> GetByBranchAsync(int idBranch)
-        {
-            var collection = await _context.Set<ScheduleExceptions>()
-                .Where(x => x.BranchId == idBranch)
-                .OrderBy(x => x.ExceptionId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
+            if (idBranch.HasValue)
+                collection = collection.Where(x => x.BranchId == idBranch.Value).ToList();
 
-        public async Task<ICollection<ScheduleExceptions>> GetByDateAsync(DateOnly exceptionDate)
-        {
-            var collection = await _context.Set<ScheduleExceptions>()
-                .Where(x => x.Date == exceptionDate)
-                .OrderBy(x => x.ExceptionId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
+            if (exceptionDate.HasValue)
+                collection = collection.Where(x => x.Date == exceptionDate.Value).ToList();
 
-        public async Task<ICollection<ScheduleExceptions>> ListAsync()
-        {
-            var collection = await _context.Set<ScheduleExceptions>()
-                .OrderBy(x => x.ExceptionId)
-                .AsNoTracking()
-                .ToListAsync();
             return collection;
         }
 

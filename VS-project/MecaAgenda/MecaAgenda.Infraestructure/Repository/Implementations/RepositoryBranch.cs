@@ -42,16 +42,6 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             }
         }
 
-        public async Task<ICollection<Branches>> FindByNameAsync(string branchName)
-        {
-            var collection = await _context.Set<Branches>()
-                .Where(x => x.Name!.Contains(branchName))
-                .OrderBy(x => x.BranchId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
         public async Task<Branches> GetAsync(int id)
         {
             var @object = await _context.Set<Branches>()
@@ -63,12 +53,16 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Branches>> ListAsync()
+        public async Task<ICollection<Branches>> ListAsync(string branchName)
         {
             var collection = await _context.Set<Branches>()
                 .OrderBy(x => x.BranchId)
                 .AsNoTracking()
                 .ToListAsync();
+
+            if (!string.IsNullOrEmpty(branchName))
+                collection = collection.Where(x => x.Name!.Contains(branchName)).ToList();
+
             return collection;
         }
 

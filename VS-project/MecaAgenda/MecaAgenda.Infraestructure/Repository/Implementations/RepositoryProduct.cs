@@ -42,26 +42,6 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             }
         }
 
-        public async Task<ICollection<Products>> FindByBrandAsync(string brandName)
-        {
-            var collection = await _context.Set<Products>()
-                .Where(x => x.Brand!.Contains(brandName))
-                .OrderBy(x => x.ProductId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Products>> FindByNameAsync(string productName)
-        {
-            var collection = await _context.Set<Products>()
-                .Where(x => x.Name!.Contains(productName))
-                .OrderBy(x => x.ProductId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
         public async Task<Products> GetAsync(int id)
         {
             var @object = await _context.Set<Products>()
@@ -72,23 +52,24 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Products>> GetByCategoryAsync(int idCategory)
-        {
-            var collection = await _context.Set<Products>()
-                .Where(x => x.CategoryId == idCategory)
-                .OrderBy(x => x.ProductId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
 
-        public async Task<ICollection<Products>> ListAsync()
+        public async Task<ICollection<Products>> ListAsync(int? idCategory, string? brandName, string? productName)
         {
             var collection = await _context.Set<Products>()
                 .Include(x => x.Category)
                 .OrderBy(x => x.ProductId)
                 .AsNoTracking()
                 .ToListAsync();
+
+            if (idCategory.HasValue)
+                collection = collection.Where(x => x.CategoryId == idCategory.Value).ToList();
+
+            if (!string.IsNullOrWhiteSpace(brandName))
+                collection = collection.Where(x => x.Brand!.Contains(brandName)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(productName))
+                collection = collection.Where(x => x.Name!.Contains(productName)).ToList();
+
             return collection;
         }
 

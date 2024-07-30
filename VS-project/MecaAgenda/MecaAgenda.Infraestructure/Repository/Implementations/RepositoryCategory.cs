@@ -42,16 +42,6 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             }
         }
 
-        public async Task<ICollection<Categories>> FindByNameAsync(string categoryName)
-        {
-            var collection = await _context.Set<Categories>()
-                .Where(x => x.Name!.Contains(categoryName))
-                .OrderBy(x => x.CategoryId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
         public async Task<Categories> GetAsync(int id)
         {
             var @object = await _context.Set<Categories>()
@@ -61,12 +51,16 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Categories>> ListAsync()
+        public async Task<ICollection<Categories>> ListAsync(string categoryName)
         {
             var collection = await _context.Set<Categories>()
                 .OrderBy(x => x.CategoryId)
                 .AsNoTracking()
                 .ToListAsync();
+
+            if (!string.IsNullOrEmpty(categoryName))
+                collection = collection.Where(x => x.Name!.Contains(categoryName)).ToList();
+
             return collection;
         }
 

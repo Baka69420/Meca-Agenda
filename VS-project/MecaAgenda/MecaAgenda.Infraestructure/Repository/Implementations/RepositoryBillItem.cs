@@ -44,7 +44,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
 
         public async Task DeleteBillItemsAsync(int billId)
         {
-            var billItemsToDelete = await GetByBillAsync(billId);
+            var billItemsToDelete = await ListAsync(billId);
 
             if (billItemsToDelete.Any())
             {
@@ -67,22 +67,16 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<BillItems>> GetByBillAsync(int idBill)
+        public async Task<ICollection<BillItems>> ListAsync(int? idBill)
         {
             var collection = await _context.Set<BillItems>()
-                .Where(x => x.BillId == idBill)
                 .OrderBy(x => x.BillItemId)
                 .AsNoTracking()
                 .ToListAsync();
-            return collection;
-        }
 
-        public async Task<ICollection<BillItems>> ListAsync()
-        {
-            var collection = await _context.Set<BillItems>()
-                .OrderBy(x => x.BillItemId)
-                .AsNoTracking()
-                .ToListAsync();
+            if (idBill.HasValue)
+                collection = collection.Where(x => x.BillId == idBill.Value).ToList();
+
             return collection;
         }
 

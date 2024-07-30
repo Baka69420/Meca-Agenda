@@ -11,11 +11,8 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
     {
         Task<int> AddAsync(Products product);
         Task DeleteAsync(int productId);
-        Task<ICollection<Products>> FindByBrandAsync(string brandName);
-        Task<ICollection<Products>> FindByNameAsync(string productName);
         Task<Products> GetAsync(int id);
-        Task<ICollection<Products>> GetByCategoryAsync(int idCategory);
-        Task<ICollection<Products>> ListAsync();
+        Task<ICollection<Products>> ListAsync(int? idCategory, string brandName, string productName);
         Task UpdateAsync(Products product);
     }
 }

@@ -12,10 +12,7 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
         Task<int> AddAsync(ScheduleExceptions scheduleException);
         Task DeleteAsync(int scheduleExceptionId);
         Task<ScheduleExceptions> GetAsync(int id);
-        Task<ICollection<ScheduleExceptions>> GetByBranchAndDateAsync(int idBranch, DateOnly exceptionDate);
-        Task<ICollection<ScheduleExceptions>> GetByBranchAsync(int idBranch);
-        Task<ICollection<ScheduleExceptions>> GetByDateAsync(DateOnly exceptionDate);
-        Task<ICollection<ScheduleExceptions>> ListAsync();
+        Task<ICollection<ScheduleExceptions>> ListAsync(int? idBranch, DateOnly? exceptionDate);
         Task UpdateAsync(ScheduleExceptions scheduleException);
     }
 }

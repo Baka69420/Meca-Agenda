@@ -58,67 +58,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Bills>> GetByBranchAndClientAsync(int idBranch, int idClient)
-        {
-            var collection = await _context.Set<Bills>()
-                .Where(x => x.BranchId == idBranch && x.ClientId == idClient)
-                .OrderBy(x => x.BillId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Bills>> GetByBranchAndDateAsync(int idBranch, DateOnly billDate)
-        {
-            var collection = await _context.Set<Bills>()
-                .Where(x => x.BranchId == idBranch && x.Date == billDate)
-                .OrderBy(x => x.BillId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Bills>> GetByBranchAsync(int idBranch)
-        {
-            var collection = await _context.Set<Bills>()
-                .Where(x => x.BranchId == idBranch)
-                .OrderBy(x => x.BillId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Bills>> GetByClientAndDateAsync(int idClient, DateOnly billDate)
-        {
-            var collection = await _context.Set<Bills>()
-                .Where(x => x.ClientId == idClient && x.Date == billDate)
-                .OrderBy(x => x.BillId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Bills>> GetByClientAsync(int idClient)
-        {
-            var collection = await _context.Set<Bills>()
-                .Where(x => x.ClientId == idClient)
-                .OrderBy(x => x.BillId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Bills>> GetByDateAsync(DateOnly billDate)
-        {
-            var collection = await _context.Set<Bills>()
-                .Where(x => x.Date == billDate)
-                .OrderBy(x => x.BillId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Bills>> ListAsync()
+        public async Task<ICollection<Bills>> ListAsync(int? idBranch, int? idClient, DateOnly? billDate)
         {
             var collection = await _context.Set<Bills>()
                 .Include(x => x.Client)
@@ -126,6 +66,16 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
                 .OrderByDescending(x => x.Date)
                 .AsNoTracking()
                 .ToListAsync();
+
+            if (idBranch.HasValue)
+                collection = collection.Where(x => x.BranchId == idBranch.Value).ToList();
+
+            if (idClient.HasValue)
+                collection = collection.Where(x => x.ClientId == idClient.Value).ToList();
+
+            if (billDate.HasValue)
+                collection = collection.Where(x => x.Date == billDate.Value).ToList();
+
             return collection;
         }
 

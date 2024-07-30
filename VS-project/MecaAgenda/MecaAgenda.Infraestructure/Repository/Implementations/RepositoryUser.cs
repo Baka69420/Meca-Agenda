@@ -43,16 +43,6 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             }
         }
 
-        public async Task<ICollection<Users>> FindByNameAsync(string userName)
-        {
-            var collection = await _context.Set<Users>()
-                .Where(x => x.Name!.Contains(userName))
-                .OrderBy(x => x.UserId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
         public async Task<Users> GetAsync(int id)
         {
             var @object = await _context.Set<Users>()
@@ -62,23 +52,20 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Users>> GetByRole(string role)
-        {
-            var collection = await _context.Set<Users>()
-                .Where(x => x.Role!.Equals(role))
-                .OrderBy(x => x.UserId)
-                .AsNoTracking()
-                .ToListAsync();
-            return collection;
-        }
-
-        public async Task<ICollection<Users>> ListAsync()
+        public async Task<ICollection<Users>> ListAsync(string role, string userName)
         {
             var collection = await _context.Set<Users>()
                 .Include(x => x.Branch)
                 .OrderBy(x => x.UserId)
                 .AsNoTracking()
                 .ToListAsync();
+
+            if (!string.IsNullOrWhiteSpace(role))
+                collection = collection.Where(x => x.Role!.Equals(role)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(userName))
+                collection =  collection.Where(x => x.Name!.Contains(userName)).ToList();
+
             return collection;
         }
 
