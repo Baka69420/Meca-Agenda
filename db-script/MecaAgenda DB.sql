@@ -33,6 +33,7 @@ CREATE TABLE Categories (
 
 CREATE TABLE Users (
     UserID INT PRIMARY KEY IDENTITY(1,1),
+    BranchID INT NULL,
     Name NVARCHAR(100),
     Phone NVARCHAR(20),
     Email NVARCHAR(100) UNIQUE,
@@ -40,15 +41,14 @@ CREATE TABLE Users (
     BirthDate DATE,
     PasswordHash NVARCHAR(256),
     Role NVARCHAR(20) CHECK (Role IN ('Client', 'Manager', 'Admin')),
-    BranchID INT NULL,
     CONSTRAINT FK_Users_Branch FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
 );
 
 CREATE TABLE Products (
     ProductID INT PRIMARY KEY IDENTITY(1,1),
+    CategoryID INT,
     Name NVARCHAR(100),
     Description NVARCHAR(255),
-    CategoryID INT,
     Price DECIMAL(10, 2),
     Brand NVARCHAR(100),
     StockQuantity INT,
@@ -90,12 +90,17 @@ CREATE TABLE Bills (
 CREATE TABLE Appointments (
     AppointmentID INT PRIMARY KEY IDENTITY(1,1),
     BillID INT,
+	ClientID INT,
+    BranchID INT,
     ServiceID INT,
+    Date DATE,
     StartTime TIME,
     EndTime TIME,
     Status NVARCHAR(50),
 	Price DECIMAL(10, 2),
     CONSTRAINT FK_Appointments_Bill FOREIGN KEY (BillID) REFERENCES Bills(BillID),
+    CONSTRAINT FK_Appointments_Client FOREIGN KEY (ClientID) REFERENCES Users(UserID),
+    CONSTRAINT FK_Appointments_Branch FOREIGN KEY (BranchID) REFERENCES Branches(BranchID),
     CONSTRAINT FK_Appointments_Service FOREIGN KEY (ServiceID) REFERENCES Services(ServiceID)
 );
 
