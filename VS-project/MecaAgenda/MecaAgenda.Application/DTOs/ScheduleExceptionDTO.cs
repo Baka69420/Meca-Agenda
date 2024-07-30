@@ -19,6 +19,10 @@ namespace MecaAgenda.Application.DTOs
         [Required(ErrorMessage = "{0} is required")]
         public int BranchId { get; set; }
 
+        [DisplayName("Reason")]
+        [Required(ErrorMessage = "{0} is required")]
+        public string Reason { get; set; } = null!;
+
         [DisplayName("Date")]
         [Required(ErrorMessage = "{0} is required")]
         public DateOnly Date { get; set; }

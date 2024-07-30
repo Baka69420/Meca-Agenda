@@ -40,6 +40,9 @@ namespace MecaAgenda.Application.DTOs
         public bool Paid { get; set; }
 
         [ValidateNever]
+        public virtual List<AppointmentDTO> Appointments { get; set; } = null!;
+
+        [ValidateNever]
         public virtual List<BillItemDTO> BillItems { get; set; } = null!;
 
         [DisplayName("Branch")]

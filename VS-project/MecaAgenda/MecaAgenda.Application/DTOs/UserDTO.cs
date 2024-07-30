@@ -15,6 +15,10 @@ namespace MecaAgenda.Application.DTOs
         [ValidateNever]
         public int UserId { get; set; }
 
+        [DisplayName("Branch ID")]
+        [ValidateNever]
+        public int BranchId { get; set; }
+
         [DisplayName("User Name")]
         [Required(ErrorMessage = "{0} is required")]
         public string Name { get; set; } = null!;
@@ -42,10 +46,6 @@ namespace MecaAgenda.Application.DTOs
         [DisplayName("Role")]
         [Required(ErrorMessage = "{0} is required")]
         public string Role { get; set; } = null!;
-
-        [DisplayName("Branch ID")]
-        [Required(ErrorMessage = "{0} is required")]
-        public int BranchId { get; set; }
 
         [ValidateNever]
         public virtual List<AppointmentDTO> Appointments { get; set; } = null!;

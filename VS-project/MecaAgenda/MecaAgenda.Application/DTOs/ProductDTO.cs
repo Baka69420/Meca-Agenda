@@ -15,6 +15,10 @@ namespace MecaAgenda.Application.DTOs
         [ValidateNever]
         public int ProductId { get; set; }
 
+        [DisplayName("Category ID")]
+        [Required(ErrorMessage = "{0} is required")]
+        public int CategoryId { get; set; }
+
         [DisplayName("Name")]
         [Required(ErrorMessage = "{0} is required")]
         public string Name { get; set; } = null!;
@@ -22,10 +26,6 @@ namespace MecaAgenda.Application.DTOs
         [DisplayName("Description")]
         [Required(ErrorMessage = "{0} is required")]
         public string Description { get; set; } = null!;
-
-        [DisplayName("Category ID")]
-        [Required(ErrorMessage = "{0} is required")]
-        public int CategoryId { get; set; }
 
         [DisplayName("Price")]
         [Required(ErrorMessage = "{0} is required")]

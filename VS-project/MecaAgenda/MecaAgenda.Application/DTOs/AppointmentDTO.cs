@@ -14,7 +14,11 @@ namespace MecaAgenda.Application.DTOs
         [Display(Name = "Appointment ID")]
         [ValidateNever]
         public int AppointmentId { get; set; }
-        
+
+        [Display(Name = "Bill ID")]
+        [ValidateNever]
+        public int BillId { get; set; }
+
         [DisplayName("Client ID")]
         [Required(ErrorMessage = "{0} is required")]
         public int ClientId { get; set; }
@@ -47,13 +51,9 @@ namespace MecaAgenda.Application.DTOs
         [Required(ErrorMessage = "{0} is required")]
         public decimal Price { get; set; }
 
-        [DisplayName("Payment Method")]
-        [Required(ErrorMessage = "{0} is required")]
-        public string PaymentMethod { get; set; } = null!;
-
-        [DisplayName("Payment Status")]
-        [Required(ErrorMessage = "{0} is required")]
-        public bool Paid { get; set; }
+        [DisplayName("Bill")]
+        [ValidateNever]
+        public virtual BillDTO Bill { get; set; } = null!;
 
         [DisplayName("Branch")]
         [ValidateNever]

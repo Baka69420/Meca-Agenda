@@ -32,11 +32,11 @@ namespace MecaAgenda.Application.DTOs
         public int EstimatedTime { get; set; }
 
         [DisplayName("Required Tools")]
-        [Required(ErrorMessage = "{0} is required")]
+        [ValidateNever]
         public string ToolsRequired { get; set; } = null!;
 
         [DisplayName("Required Materials")]
-        [Required(ErrorMessage = "{0} is required")]
+        [ValidateNever]
         public string MaterialsNeeded { get; set; } = null!;
 
         [ValidateNever]
