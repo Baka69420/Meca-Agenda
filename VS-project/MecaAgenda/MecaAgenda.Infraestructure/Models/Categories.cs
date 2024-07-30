@@ -7,7 +7,7 @@ public partial class Categories
 {
     public int CategoryId { get; set; }
 
-    public string? Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public virtual ICollection<Products> Products { get; set; } = new List<Products>();
 }

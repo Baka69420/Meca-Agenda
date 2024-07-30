@@ -7,15 +7,17 @@ public partial class ScheduleExceptions
 {
     public int ExceptionId { get; set; }
 
-    public int? BranchId { get; set; }
+    public int BranchId { get; set; }
 
-    public DateOnly? Date { get; set; }
+    public string Reason { get; set; } = null!;
 
-    public TimeOnly? StartTime { get; set; }
+    public DateOnly Date { get; set; }
 
-    public TimeOnly? EndTime { get; set; }
+    public TimeOnly StartTime { get; set; }
 
-    public string? ServicesAffected { get; set; }
+    public TimeOnly EndTime { get; set; }
 
-    public virtual Branches? Branch { get; set; }
+    public string ServicesAffected { get; set; } = null!;
+
+    public virtual Branches Branch { get; set; } = null!;
 }
