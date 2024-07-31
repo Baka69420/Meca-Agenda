@@ -9,60 +9,92 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Client.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Branch.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Paid)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Client.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Branch.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalAmount)
-            </td>
-            <td>
-                @if (item.Paid)
-                {
-                    <p>Fully Paid</p>
-                }
-                else
-                {
-                    <p>Not Paid</p>
-                }
-            </td>
-            @if (!item.Paid)
-            {
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.BillId }, new { @class = "btn btn-primary" }) 
-                    @Html.ActionLink("Edit", "Edit", new { id = item.BillId }, new { @class = "btn btn-warning" }) 
-                    @Html.ActionLink("Delete", "Delete", new { id = item.BillId }, new { @class = "btn btn-danger" })
-                </td>
-            } else
-            {
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.BillId }, new { @class = "btn btn-primary" })
-                </td>
+
+<div class="row">
+    @{
+        var branchOptions = ViewBag.Branches as IEnumerable<SelectListItem>;
+        var clientOptions = ViewBag.Clients as IEnumerable<SelectListItem>;
+    }
+    <div class="col-sm-2 mx-2 mb-2">
+        <label class="control-label">Branch</label>
+        <select id="branchFilter" asp-items="@(branchOptions)" class="form-control"></select>
+    </div>
+
+    <div class="col-sm-2 mx-2 mb-2">
+        <label class="control-label">Client</label>
+        <select id="clientFilter" asp-items="@(clientOptions)" class="form-control"></select>
+    </div>
+
+    <div class="col-sm-2 mx-2 mb-2">
+        <label class="control-label">Start Date</label>
+        <input type="date" id="billStartFilter" min="2024-01-01" value="2024-01-01" />
+    </div>
+
+    <div class="col-sm-2 mx-2 mb-2">
+        <label class="control-label">End Date</label>
+        <input type="date" id="billEndFilter" min="2024-01-01" />
+    </div>
+
+</div>
+
+<button class="btn btn-secondary" id="filterButton" class="mt-2">Filter</button>
+
+<div id="billTableContainer"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            function loadTable(idBranch, idClient, billStartDate, billEndDate) {
+                $.ajax({
+                    url: '@Url.Action("GetBills")',
+                    type: 'GET',
+                    data: { idBranch: idBranch, idClient: idClient, billStartDate: billStartDate, billEndDate: billEndDate },
+                    success: function (data) {
+                        $('#billTableContainer').html(data);
+                    },
+                    error: function () {
+                        alert('Error retrieving data.');
+                    }
+                });
             }
-        </tr>
+
+            var currentDate = new Date();
+
+            for (let i = 1; i <= 15; i++) {
+                currentDate.setDate(currentDate.getDate() + 1);
+                if (currentDate.getDay() === 6) {
+                    currentDate.setDate(currentDate.getDate() + 2);
+                }
+                else if (currentDate.getDay() === 0) {
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            }
+
+            var month = (currentDate.getMonth() + 1);
+            var day = currentDate.getDate();
+            if (month < 10)
+                month = "0" + month;
+            if (day < 10)
+                day = "0" + day;
+            var today = currentDate.getFullYear() + '-' + month + '-' + day;
+
+            $('#billStartFilter').attr({ "max": today })
+            $('#billEndFilter').attr({ "max": today })
+
+            $('#billEndFilter').val(today);
+
+
+            loadTable(null, null, null, null);
+
+            $('#filterButton').click(function () {
+                var idBranch = $('#branchFilter').val() == "" ? null : $('#branchFilter').val();
+                var idClient = $('#clientFilter').val() == "" ? null : $('#clientFilter').val();
+                var appointmentStartDate = $('#billStartFilter').val();
+                var appointmentEndDate = $('#billEndFilter').val();
+
+                loadTable(idBranch, idClient, appointmentStartDate, appointmentEndDate);
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>
