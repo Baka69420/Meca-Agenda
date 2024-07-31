@@ -14,14 +14,16 @@ namespace MecaAgenda.Web.Controllers
         private readonly IServiceUser _serviceUser;
         private readonly IServiceService _serviceService;
         private readonly IServiceBranchSchedule _serviceBranchSchedule;
+        private readonly IServiceBill _serviceBill;
 
-        public AppointmentController(IServiceAppointment serviceAppointment, IServiceBranch serviceBranch, IServiceUser serviceUser, IServiceService serviceService, IServiceBranchSchedule serviceBranchSchedule)
+        public AppointmentController(IServiceAppointment serviceAppointment, IServiceBranch serviceBranch, IServiceUser serviceUser, IServiceService serviceService, IServiceBranchSchedule serviceBranchSchedule, IServiceBill serviceBill)
         {
             _serviceAppointment = serviceAppointment;
             _serviceBranch = serviceBranch;
             _serviceUser = serviceUser;
             _serviceService = serviceService;
             _serviceBranchSchedule = serviceBranchSchedule;
+            _serviceBill = serviceBill;
         }
 
         [HttpGet]
@@ -71,7 +73,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 var @object = await _serviceAppointment.GetAsync(id.Value);
@@ -335,6 +337,75 @@ namespace MecaAgenda.Web.Controllers
 
             await _serviceAppointment.DeleteAsync(id.Value);
             return RedirectToAction("IndexAdmin");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PrelimilaryInvoice(int? id)
+        {
+            try
+            {
+                ViewBag.CurrentDate = DateTime.Now.Date.ToString().Split(" ")[0];
+
+                if (id == null)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                var @object = await _serviceAppointment.GetAsync(id.Value);
+
+                if (@object == null)
+                {
+                    throw new Exception("Appointment does not exist");
+                }
+
+                return View(@object);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PrelimilaryInvoice(int? id, IFormCollection collection)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return RedirectToAction("IndexAdmin");
+                }
+
+                var @object = await _serviceAppointment.GetAsync(id.Value);
+
+                if (@object == null)
+                {
+                    throw new Exception("Appointment does not exist");
+                }
+
+                BillDTO billDTO = new BillDTO() 
+                {
+                    ClientId = @object.ClientId,
+                    BranchId = @object.BranchId,
+                    Date = DateOnly.Parse(DateTime.Now.ToString().Split(" ")[0]),
+                    TotalAmount = @object.Price,
+                    PaymentMethod = "Cash",
+                    Paid = false
+                };
+
+                int billId = await _serviceBill.AddAsync(billDTO);
+
+                @object.BillId = billId;
+                @object.Status = "Completed";
+
+                await _serviceAppointment.UpdateAsync(@object);
+
+                return RedirectToAction("Details", "Bill", new { id = billId });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

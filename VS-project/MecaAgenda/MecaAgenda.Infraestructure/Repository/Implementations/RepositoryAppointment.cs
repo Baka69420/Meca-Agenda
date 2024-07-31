@@ -83,7 +83,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
 
             if (appointmentToUpdate != null)
             {
-                appointmentToUpdate.ServiceId = appointment.ServiceId;
+                appointmentToUpdate.BillId = appointment.BillId;
                 appointmentToUpdate.Date = appointment.Date;
                 appointmentToUpdate.StartTime = appointment.StartTime;
                 appointmentToUpdate.EndTime = appointment.EndTime;

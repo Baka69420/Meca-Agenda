@@ -106,6 +106,7 @@
 @if (Model.Status == "Scheduled")
 {
     <div>
+        @Html.ActionLink("Create Prelimilary Invoice", "PrelimilaryInvoice", new { id = Model.AppointmentId }, new { @class = "btn btn-primary" })
         @Html.ActionLink("Edit", "Edit", new { id = Model.AppointmentId }, new { @class = "btn btn-warning" }) 
         <a class="btn btn-secondary" asp-action="IndexAdmin">Back to List</a>
     </div>

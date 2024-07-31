@@ -220,7 +220,7 @@
 </div>
 
 @if (!Model.Paid)
-{ 
+{
     <div>
         @Html.ActionLink("Edit Bill", "Edit", new { id = Model.BillId }, new { @class = "btn btn-warning" }) 
         <a class="btn btn-secondary" asp-action="IndexAdmin">Back to List</a>

@@ -51,7 +51,9 @@
                 </td>
                 @if(item.Status == "Scheduled") {
                     <td>
-                        @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-primary" }) 
+
+                        @Html.ActionLink("Create Prelimilary Invoice", "PrelimilaryInvoice", new { id = item.AppointmentId }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-secondary" }) 
                         @Html.ActionLink("Edit", "Edit", new { id = item.AppointmentId }, new { @class = "btn btn-warning" }) 
                         @Html.ActionLink("Delete", "Delete", new { id = item.AppointmentId }, new { @class = "btn btn-danger" })
                     </td>
