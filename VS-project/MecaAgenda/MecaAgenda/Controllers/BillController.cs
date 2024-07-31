@@ -57,7 +57,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 var @object = await _serviceBill.GetAsync(id.Value);
@@ -81,6 +81,53 @@ namespace MecaAgenda.Web.Controllers
             var collection = await _serviceBill.ListAsync(idBranch, idClient, billStartDate, billEndDate);
 
             return PartialView("_BillTableAdmin", collection);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return RedirectToAction("IndexAdmin");
+                }
+
+                var @object = await _serviceBill.GetAsync(id.Value);
+
+                if (@object == null)
+                {
+                    throw new Exception("Bill does not exist");
+                }
+
+                return View(@object);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(int? id, IFormCollection collection)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("IndexAdmin");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Join("; ", ModelState.Values
+                    .SelectMany(x => x.Errors)
+                    .Select(x => x.ErrorMessage));
+                ViewBag.ErrorMessage = errors;
+                return View();
+            }
+
+            await _serviceBill.DeleteAsync(id.Value);
+
+            return View();
         }
     }
 }
