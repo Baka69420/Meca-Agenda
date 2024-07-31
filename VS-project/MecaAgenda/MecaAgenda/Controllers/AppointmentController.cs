@@ -287,6 +287,8 @@ namespace MecaAgenda.Web.Controllers
                 return View();
             }
 
+            appointmentDTO.Status = "Rescheduled";
+
             await _serviceAppointment.UpdateAsync(appointmentDTO);
 
             return RedirectToAction("Details", new { id = appointmentDTO.AppointmentId });
