@@ -33,7 +33,7 @@ namespace MecaAgenda.Application.Services.AutoHosted
                 var now = DateTime.Now;
                 var nextRunTime = now.Date.AddHours(8).AddMinutes(0);
 
-                if (now <= nextRunTime)
+                if (now >= nextRunTime)
                     nextRunTime.AddDays(1);
 
                 var delay = nextRunTime - now;
