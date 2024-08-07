@@ -29,6 +29,8 @@ builder.Services.AddTransient<IRepositoryScheduleException, RepositoryScheduleEx
 builder.Services.AddTransient<IRepositoryService, RepositoryService>();
 builder.Services.AddTransient<IRepositoryUser, RepositoryUser>();
 
+builder.Services.AddTransient<IRepositoryMailer, RepositoryMailer>();
+
 // Services
 builder.Services.AddTransient<IServiceAppointment, ServiceAppointment>();
 builder.Services.AddTransient<IServiceBill, ServiceBill>();
