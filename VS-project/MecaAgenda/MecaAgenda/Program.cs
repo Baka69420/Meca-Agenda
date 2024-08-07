@@ -10,6 +10,7 @@ using MecaAgenda.Infraestructure.Repository.Implementations;
 using MecaAgenda.Application.Services.Interfaces;
 using MecaAgenda.Application.Services.Implementations;
 using MecaAgenda.Application.Profiles;
+using MecaAgenda.Application.Services.AutoHosted;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,8 @@ builder.Services.AddTransient<IServiceProduct, ServiceProduct>();
 builder.Services.AddTransient<IServiceScheduleException, ServiceScheduleException>();
 builder.Services.AddTransient<IServiceService, ServiceService>();
 builder.Services.AddTransient<IServiceUser, ServiceUser>();
+
+builder.Services.AddTransient<IServiceMailTemplates, ServiceMailTemplates>();
 
 // AutoMapper
 builder.Services.AddAutoMapper(config =>
