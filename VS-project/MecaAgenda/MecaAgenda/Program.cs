@@ -46,6 +46,9 @@ builder.Services.AddTransient<IServiceUser, ServiceUser>();
 
 builder.Services.AddTransient<IServiceMailTemplates, ServiceMailTemplates>();
 
+// Automated Service
+builder.Services.AddHostedService<ServiceBackground>();
+
 // AutoMapper
 builder.Services.AddAutoMapper(config =>
 {
