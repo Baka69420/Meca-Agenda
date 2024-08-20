@@ -21,9 +21,7 @@ INSERT INTO Categories (Name) VALUES
 
 -- Insert data into Users table
 INSERT INTO Users (BranchID, Name, Phone, Email, Address, BirthDate, PasswordHash, Role) VALUES
-(1, 'John Doe', '321-654-0001', 'john.doe@example.com', '123 Address 1', '1985-07-15', 'AQAAAAIAAYagAAAAEGIGmOgIpkMO2LXFL13Kl/+rsB+k8v7eoCy5iSIw/sXy+jQeIbUYw60ZK1yAjhTgpQ==', 'Admin'),
-(2, 'Jane Smith', '321-654-0002', 'jane.smith@example.com', '123 Address 2', '1990-11-25', 'AQAAAAIAAYagAAAAEGIGmOgIpkMO2LXFL13Kl/+rsB+k8v7eoCy5iSIw/sXy+jQeIbUYw60ZK1yAjhTgpQ==', 'Admin'),
-(3, 'Alice Johnson', '321-654-0003', 'alice.johnson@example.com', '123 Address 3', '1980-03-10', 'AQAAAAIAAYagAAAAEGIGmOgIpkMO2LXFL13Kl/+rsB+k8v7eoCy5iSIw/sXy+jQeIbUYw60ZK1yAjhTgpQ==', 'Admin'),
+(NULL, 'John Doe', '321-654-0001', 'john.doe@example.com', '123 Address 1', '1985-07-15', 'AQAAAAIAAYagAAAAEGIGmOgIpkMO2LXFL13Kl/+rsB+k8v7eoCy5iSIw/sXy+jQeIbUYw60ZK1yAjhTgpQ==', 'Admin'),
 (1, 'Alice Jones', '321-654-0004', 'alice.jones@example.com', '123 Address 4', '1983-02-15', 'AQAAAAIAAYagAAAAEGIGmOgIpkMO2LXFL13Kl/+rsB+k8v7eoCy5iSIw/sXy+jQeIbUYw60ZK1yAjhTgpQ==', 'Manager'),
 (2, 'Bob Smith', '321-654-0005', 'bob.smith@example.com', '123 Address 5', '1976-06-21', 'AQAAAAIAAYagAAAAEGIGmOgIpkMO2LXFL13Kl/+rsB+k8v7eoCy5iSIw/sXy+jQeIbUYw60ZK1yAjhTgpQ==', 'Manager'),
 (3, 'Carol Doe', '321-654-0006', 'carol.doe@example.com', '123 Address 6', '1964-10-03', 'AQAAAAIAAYagAAAAEGIGmOgIpkMO2LXFL13Kl/+rsB+k8v7eoCy5iSIw/sXy+jQeIbUYw60ZK1yAjhTgpQ==', 'Manager'),
