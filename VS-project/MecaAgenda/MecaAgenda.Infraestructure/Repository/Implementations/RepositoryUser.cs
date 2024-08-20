@@ -47,6 +47,7 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
         {
             var @object = await _context.Set<Users>()
                 .Where(x => x.UserId == id)
+                .Include(x => x.Branch)
                 .OrderBy(x => x.UserId)
                 .FirstOrDefaultAsync();
             return @object!;

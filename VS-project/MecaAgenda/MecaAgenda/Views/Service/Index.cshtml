@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MecaAgenda.Application.DTOs.ServiceDTO>
+﻿@using System.Globalization
+@model IEnumerable<MecaAgenda.Application.DTOs.ServiceDTO>
 
 @{
     ViewData["Title"] = "Service List";
@@ -6,40 +7,36 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ServiceId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstimatedTime)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ServiceId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstimatedTime)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4">
+    @foreach (var item in Model)
+    {
+        <div class="col">
+            <div class="card shadow-sm">
+                @* <img class="card-img-top"
+            style="max-height:460px;"
+            role="img"
+            src="data:image/jpeg;charset=utf-8;base64, @Convert.ToBase64String(item.Imagen)"
+            alt="Imagen" /> *@
+
+                <div class="card-body">
+                    <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Name)</h5>
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.EstimatedTime)
+                        </dt>
+                        <dd class="col-sm-6">
+                            @Html.DisplayFor(modelItem => item.EstimatedTime)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Price)
+                        </dt>
+                        <dd class="col-sm-6">
+                            @Html.DisplayFor(modelItem => item.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+                        </dd>
+                    </dl>
+                    @Html.ActionLink("More Details", "Details", new { id = item.ServiceId }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

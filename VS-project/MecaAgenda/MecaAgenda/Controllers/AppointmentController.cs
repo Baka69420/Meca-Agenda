@@ -1,9 +1,11 @@
 ﻿using MecaAgenda.Application.DTOs;
 using MecaAgenda.Application.Services.Implementations;
 using MecaAgenda.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace MecaAgenda.Web.Controllers
 {
@@ -25,27 +27,59 @@ namespace MecaAgenda.Web.Controllers
             _serviceBranchSchedule = serviceBranchSchedule;
             _serviceBill = serviceBill;
         }
+        
+        [HttpGet]
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> Index()
+        {
+            if (User.Identity!.IsAuthenticated)
+            {
+                var collection = await _serviceAppointment.ListAsync(null, int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value!), null, null);
+
+                return View(collection);
+            } else
+            {
+                TempData["Message"] = "Couldn't obtain logged in user.";
+                return RedirectToAction("Index", "Home");
+            }
+        }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> IndexAdmin()
         {
-            var branches = await _serviceBranch.ListAsync("");
+            var branchOptions = new List<SelectListItem>();
+
+            if (User.IsInRole("Admin"))
+            {
+                var branches = await _serviceBranch.ListAsync("");
+
+                branchOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "", Text = "--- Select a Branch ---" }
+                };
+
+                branchOptions.AddRange(branches.Select(item => new SelectListItem
+                {
+                    Value = item.BranchId.ToString(),
+                    Text = item.Name
+                }));
+            } else
+            {
+                var user = await _serviceUser.GetAsync(int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value!));
+
+                branchOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = user.BranchId.ToString(), Text = user.Branch.Name }
+                };
+            }
+
             var clients = await _serviceUser.ListAsync("client", "");
 
-            var branchOptions = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "", Text = "--- Select a Branch ---" }
-            };
             var clientOptions = new List<SelectListItem>
             {
                 new SelectListItem { Value = "", Text = "--- Select a Client ---" }
             };
-
-            branchOptions.AddRange(branches.Select(item => new SelectListItem
-            {
-                Value = item.BranchId.ToString(),
-                Text = item.Name
-            }));
             clientOptions.AddRange(clients.Select(item => new SelectListItem
             {
                 Value = item.UserId.ToString(),
@@ -53,12 +87,14 @@ namespace MecaAgenda.Web.Controllers
             }));
 
             ViewBag.Branches = branchOptions;
+
             ViewBag.Clients = clientOptions;
 
             return View();
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> GetAppointments(int? idBranch, int? idClient, DateOnly? appointmentStartDate, DateOnly? appointmentEndDate)
         {
             var collection = await _serviceAppointment.ListAsync(idBranch, idClient, appointmentStartDate, appointmentEndDate);
@@ -94,6 +130,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager, Client")]
         public async Task<decimal> ServicePrice(int? id)
         {
             if (id == null)
@@ -112,6 +149,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager, Client")]
         public async Task<BranchScheduleDTO?> BranchSchedule(int? id, DateOnly? date)
         {
             if (!id.HasValue || !date.HasValue)
@@ -134,6 +172,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager, Client")]
         public async Task<TimeOnly?> ServiceTime(int? id, TimeOnly? time)
         {
             if (!id.HasValue || !time.HasValue)
@@ -154,35 +193,68 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateAdmin()
+        [Authorize(Roles = "Manager, Client")]
+        public async Task<IActionResult> Create()
         {
-            var branches = await _serviceBranch.ListAsync("");
-            var clients = await _serviceUser.ListAsync("client", "");
+            var branchOptions = new List<SelectListItem>();
+            if (User.IsInRole("Client"))
+            {
+                var branches = await _serviceBranch.ListAsync("");
+
+                branchOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "", Text = "--- Select a Branch ---" }
+                };
+
+                branchOptions.AddRange(branches.Select(item => new SelectListItem
+                {
+                    Value = item.BranchId.ToString(),
+                    Text = item.Name
+                }));
+            }
+            else
+            {
+                var user = await _serviceUser.GetAsync(int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value!));
+
+                branchOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = user.BranchId.ToString(), Text = user.Branch.Name }
+                };
+            }
+
+            var clientOptions = new List<SelectListItem>();
+            if (User.IsInRole("Manager"))
+            {
+                var clients = await _serviceUser.ListAsync("Client", "");
+
+                clientOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "", Text = "--- Select a Client ---" }
+                };
+
+                clientOptions.AddRange(clients.Select(item => new SelectListItem
+                {
+                    Value = item.UserId.ToString(),
+                    Text = item.Name
+                }));
+            }
+            else
+            {
+                var user = await _serviceUser.GetAsync(int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value!));
+
+                clientOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = user.UserId.ToString(), Text = user.Name }
+                };
+            }
+
             var services = await _serviceService.ListAsync("");
 
-            var branchOptions = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "", Text = "--- Select a Branch ---" }
-            };
-            var clientOptions = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "", Text = "--- Select a Client ---" }
-            };
             var serviceOptions = new List<SelectListItem>
             {
                 new SelectListItem { Value = "", Text = "--- Select a Service ---" }
             };
 
-            branchOptions.AddRange(branches.Select(item => new SelectListItem
-            {
-                Value = item.BranchId.ToString(),
-                Text = item.Name
-            }));
-            clientOptions.AddRange(clients.Select(item => new SelectListItem
-            {
-                Value = item.UserId.ToString(),
-                Text = item.Name
-            }));
             serviceOptions.AddRange(services.Select(item => new SelectListItem
             {
                 Value = item.ServiceId.ToString(),
@@ -197,8 +269,9 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager, Client")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAdmin(AppointmentDTO appointmentDTO)
+        public async Task<IActionResult> Create(AppointmentDTO appointmentDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -218,6 +291,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             try
@@ -282,6 +356,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(AppointmentDTO appointmentDTO)
         {
@@ -305,6 +380,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -332,6 +408,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id, IFormCollection collection)
         {
@@ -349,6 +426,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> PrelimilaryInvoice(int? id)
         {
             try
@@ -378,6 +456,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> PrelimilaryInvoice(int? id, IFormCollection collection)
         {
             try

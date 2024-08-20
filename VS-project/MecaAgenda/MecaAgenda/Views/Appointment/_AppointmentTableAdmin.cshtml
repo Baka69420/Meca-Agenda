@@ -52,20 +52,22 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Service.Name)
                 </td>
-                @if(item.Status == "Scheduled") {
-                    <td>
+                    @if (User.IsInRole("Manager") && item.Status == "Scheduled")
+                    {
+                        <td>
 
-                        @Html.ActionLink("Create Prelimilary Invoice", "PrelimilaryInvoice", new { id = item.AppointmentId }, new { @class = "btn btn-primary" })
-                        @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-secondary" }) 
-                        @Html.ActionLink("Edit", "Edit", new { id = item.AppointmentId }, new { @class = "btn btn-warning" }) 
-                        @Html.ActionLink("Delete", "Delete", new { id = item.AppointmentId }, new { @class = "btn btn-danger" })
-                    </td>
-                } else
-                {
-                    <td>
-                        @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-primary" })
-                    </td>
-                }
+                            @Html.ActionLink("Create Prelimilary Invoice", "PrelimilaryInvoice", new { id = item.AppointmentId }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-secondary" })
+                            @Html.ActionLink("Edit", "Edit", new { id = item.AppointmentId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.AppointmentId }, new { @class = "btn btn-danger" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-primary" })
+                        </td>
+                    }
             </tr>
         }
     } else

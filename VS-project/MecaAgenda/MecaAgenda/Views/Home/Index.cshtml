@@ -4,8 +4,6 @@
     ViewData["Title"] = "Home Page";
     
     var branches = ViewBag.Branches as ICollection<BranchDTO>;
-    var services = ViewBag.Services as ICollection<ServiceDTO>;
-    var products = ViewBag.Products as ICollection<ProductDTO>;
 }
 
 <head>
@@ -54,42 +52,6 @@
                     <p>@branch.Address</p>
                     <p>@branch.Phone</p>
                     <p>@branch.Email</p>
-                </div>
-            }
-        </div>
-    </section>
-    <br />
-}
-
-@if (services != null && services.Count > 0)
-{
-    <section id="top-services">
-        <h2>Top Services</h2>
-        <div class="card-container">
-            @foreach (var service in services)
-            {
-                <div class="card">
-                    <h3>@service.Name</h3>
-                    <p><strong>Duration:</strong> @service.EstimatedTime minutes</p>
-                    <p><strong>Price:</strong> @service.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</p>
-                </div>
-            }
-        </div>
-    </section>
-    <br />
-}
-
-@if (products != null && products.Count > 0)
-{
-    <section id="top-products">
-        <h2>Top Products</h2>
-        <div class="card-container">
-            @foreach (var product in products)
-            {
-                <div class="card">
-                    <h3>@product.Name</h3>
-                    <p>@product.Category.Name</p>
-                    <p><strong>Price:</strong> @product.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</p>
                 </div>
             }
         </div>

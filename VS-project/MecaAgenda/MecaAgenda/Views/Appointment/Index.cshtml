@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+@model IEnumerable<MecaAgenda.Application.DTOs.AppointmentDTO>
+
+@{
+    ViewData["Title"] = "Appointment List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Branch.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Service.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Branch.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-primary" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
