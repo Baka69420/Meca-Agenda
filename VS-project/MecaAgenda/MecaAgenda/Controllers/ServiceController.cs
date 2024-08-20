@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MecaAgenda.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class ServiceController : Controller
     {
         private readonly IServiceService _serviceService;
@@ -18,11 +17,28 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> IndexAdmin()
         {
             var collection = await _serviceService.ListAsync("");
             return View(collection);
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetServices(string serviceName)
+        {
+            var collection = await _serviceService.ListAsync(serviceName);
+
+            return PartialView("_ServiceTableAdmin", collection);
+        }
+
 
         [HttpGet]
         public async Task<ActionResult> Details(int? id)
@@ -31,7 +47,10 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
-                    return RedirectToAction("IndexAdmin");
+                    if (User.IsInRole("Admin"))
+                        return RedirectToAction("IndexAdmin");
+                    else
+                        return RedirectToAction("Index");
                 }
 
                 var @object = await _serviceService.GetAsync(id.Value);
@@ -50,12 +69,14 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ServiceDTO serviceDTO)
         {
@@ -73,6 +94,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(int? id)
         {
             try
@@ -98,6 +120,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int? id, ServiceDTO serviceDTO)
         {
@@ -122,6 +145,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int? id)
         {
             try
@@ -147,6 +171,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int? id, IFormCollection collection)
         {

@@ -9,45 +9,43 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ServiceId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstimatedTime)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstimatedTime)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.ServiceId }, new { @class = "btn btn-primary" }) 
-                @Html.ActionLink("Edit", "Edit", new { id = item.ServiceId }, new { @class = "btn btn-warning" }) 
-                @Html.ActionLink("Delete", "Delete", new { id = item.ServiceId }, new { @class = "btn btn-danger" })
-            </td>
-        </tr>
+
+<div class="row">
+    <div class="col-sm-2 mx-2 mb-2">
+        <label class="control-label">Name</label>
+        <input type="text" id="serviceName" />
+    </div>
+</div>
+
+<button class="btn btn-secondary" id="filterButton" class="mt-2">Filter</button>
+
+<div id="serviceTableContainer"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            function loadTable(serviceName) {
+                $.ajax({
+                    url: '@Url.Action("GetServices")',
+                    type: 'GET',
+                    data: { serviceName: serviceName },
+                    success: function (data) {
+                        $('#serviceTableContainer').html(data);
+                    },
+                    error: function () {
+                        alert('Error retrieving data.');
+                    }
+                });
+            }
+
+            loadTable(null);
+
+            $('#filterButton').click(function () {
+                var serviceName = $('#serviceName').val() == "" ? null : $('#serviceName').val();
+
+                loadTable(serviceName);
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>

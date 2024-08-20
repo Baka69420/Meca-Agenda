@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MecaAgenda.Web", "MecaAgenda\MecaAgenda.Web.csproj", "{294B6A11-D9D0-4AFC-B331-03DD5B00CD43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MecaAgenda.Web", "MecaAgenda\MecaAgenda.Web.csproj", "{294B6A11-D9D0-4AFC-B331-03DD5B00CD43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MecaAgenda.Application", "MecaAgenda.Application\MecaAgenda.Application.csproj", "{57843336-9D59-4D79-85C4-4C4330453685}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MecaAgenda.Application", "MecaAgenda.Application\MecaAgenda.Application.csproj", "{57843336-9D59-4D79-85C4-4C4330453685}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MecaAgenda.Infraestructure", "MecaAgenda.Infraestructure\MecaAgenda.Infraestructure.csproj", "{2DE879DD-5204-4D35-B1C7-C6676E98ABFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MecaAgenda.Infraestructure", "MecaAgenda.Infraestructure\MecaAgenda.Infraestructure.csproj", "{2DE879DD-5204-4D35-B1C7-C6676E98ABFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

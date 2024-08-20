@@ -1,12 +1,14 @@
-﻿using MecaAgenda.Application.DTOs;
+﻿using Azure.Core;
+using MecaAgenda.Application.DTOs;
 using MecaAgenda.Application.Services.Implementations;
 using MecaAgenda.Application.Services.Interfaces;
+using MecaAgenda.Infraestructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MecaAgenda.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly IServiceProduct _serviceProduct;
@@ -32,7 +34,10 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
-                    return RedirectToAction("IndexAdmin");
+                    if (User.IsInRole("Admin"))
+                        return RedirectToAction("IndexAdmin");
+                    else
+                        return RedirectToAction("Index");
                 }
 
                 var @object = await _serviceProduct.GetAsync(id.Value);
@@ -51,12 +56,39 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> IndexAdmin()
         {
-            var collection = await _serviceProduct.ListAsync(null, "", "");
-            return View(collection);
+            var categories = await _serviceCategory.ListAsync("");
+
+            var categoryOptions = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "", Text = "--- Select a Category ---" }
+            };
+
+            categoryOptions.AddRange(categories.Select(item => new SelectListItem
+            {
+                Value = item.CategoryId.ToString(),
+                Text = item.Name
+            }));
+
+            ViewBag.Categories = categoryOptions;
+
+            return View();
         }
+
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetProducts(int? idCategory)
+        {
+            var collection = await _serviceProduct.ListAsync(idCategory, "", "");
+
+            return PartialView("_ProductTableAdmin", collection);
+        }
+
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Create()
         {
             ViewBag.ListCategory = await _serviceCategory.ListAsync("");
@@ -65,6 +97,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ProductDTO productDTO)
         {
@@ -82,6 +115,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(int? id)
         {
             ViewBag.ListCategory = await _serviceCategory.ListAsync("");
@@ -109,6 +143,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int? id, ProductDTO productDTO)
         {
@@ -133,6 +168,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int? id)
         {
             try
@@ -158,6 +194,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int? id, IFormCollection collection)
         {
