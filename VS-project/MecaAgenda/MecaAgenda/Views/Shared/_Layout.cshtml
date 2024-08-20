@@ -25,23 +25,45 @@
                     <ul class="navbar-nav flex-grow-1">
 
                         <li class="nav-item">
-                            <a class="nav-link active" asp-area="" asp-controller="Product" asp-action="Index">Products (Everyone)</a>
+                            <a class="nav-link active" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                         </li>
+                        
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin Maintenance
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Appointment" asp-action="IndexAdmin">Appointments</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Bill" asp-action="IndexAdmin">Bills</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Branch" asp-action="IndexAdmin">Branches</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="IndexAdmin">Products</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Schedule" asp-action="IndexAdmin">Schedules</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Service" asp-action="IndexAdmin">Services</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="IndexAdmin">Users</a></li>
+                                </ul>
+                            </li>
+                        }
 
-                        <li class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin Maintenance
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Appointment" asp-action="IndexAdmin">Appointments</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Bill" asp-action="IndexAdmin">Bills</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Branch" asp-action="IndexAdmin">Branches</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="IndexAdmin">Products</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Schedule" asp-action="IndexAdmin">Schedules</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Service" asp-action="IndexAdmin">Services</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="IndexAdmin">Users</a></li>
-                            </ul>
-                        </li>
+                        @if (User.IsInRole("Manager"))
+                        {
+                            <li class="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Manager Maintenance
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Appointment" asp-action="IndexAdmin">Appointments</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Bill" asp-action="IndexAdmin">Bills</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Branch" asp-action="IndexAdmin">Branches</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="IndexAdmin">Products</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Schedule" asp-action="IndexAdmin">Schedules</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Service" asp-action="IndexAdmin">Services</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="IndexAdmin">Users</a></li>
+                                </ul>
+                            </li>
+                        }
+                        
                     </ul>
                 </div>
 
@@ -53,8 +75,22 @@
                         </svg>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Login">Login</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile"> @User.Identity.Name Profile</a></li>
+                            <li>
+                                <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" style="display:none;">
+                                    @Html.AntiForgeryToken()
+                                </form>
+
+                                <a class="dropdown-item" href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+                            </li>
+                        } else
+                        {
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Login">Login</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
+                        }
+
                     </ul>
                 </div>
             </div>

@@ -1,8 +1,98 @@
-﻿@{
+﻿@using MecaAgenda.Application.DTOs
+@using System.Globalization
+@{
     ViewData["Title"] = "Home Page";
+    
+    var branches = ViewBag.Branches as ICollection<BranchDTO>;
+    var services = ViewBag.Services as ICollection<ServiceDTO>;
+    var products = ViewBag.Products as ICollection<ProductDTO>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<head>
+    <style>
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            .card h3 {
+                margin-top: 0;
+            }
+
+            .card p {
+                color: #666;
+            }
+    </style>
+</head>
+
+<header>
+    <h1>Welcome to Revved Up Repairs</h1>
+    <p>Your one-stop shop for quality car parts and reliable car maintenance services.</p>
+</header>
+
+@if (branches != null && branches.Count > 0)
+{
+    <section id="branches">
+        <h2>Our Branches</h2>
+        <div class="card-container">
+            @foreach (var branch in branches)
+            {
+                <div class="card">
+                    <h3>@branch.Name</h3>
+                    <p>@branch.Address</p>
+                    <p>@branch.Phone</p>
+                    <p>@branch.Email</p>
+                </div>
+            }
+        </div>
+    </section>
+    <br />
+}
+
+@if (services != null && services.Count > 0)
+{
+    <section id="top-services">
+        <h2>Top Services</h2>
+        <div class="card-container">
+            @foreach (var service in services)
+            {
+                <div class="card">
+                    <h3>@service.Name</h3>
+                    <p><strong>Duration:</strong> @service.EstimatedTime minutes</p>
+                    <p><strong>Price:</strong> @service.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</p>
+                </div>
+            }
+        </div>
+    </section>
+    <br />
+}
+
+@if (products != null && products.Count > 0)
+{
+    <section id="top-products">
+        <h2>Top Products</h2>
+        <div class="card-container">
+            @foreach (var product in products)
+            {
+                <div class="card">
+                    <h3>@product.Name</h3>
+                    <p>@product.Category.Name</p>
+                    <p><strong>Price:</strong> @product.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</p>
+                </div>
+            }
+        </div>
+    </section>
+    <br />
+}
