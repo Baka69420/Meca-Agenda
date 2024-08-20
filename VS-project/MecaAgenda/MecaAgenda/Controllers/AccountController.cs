@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using MecaAgenda.Application.DTOs;
 
 namespace MecaAgenda.Web.Controllers
 {
@@ -63,6 +64,29 @@ namespace MecaAgenda.Web.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(UserDTO userDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Join("; ", ModelState.Values
+                    .SelectMany(x => x.Errors)
+                    .Select(x => x.ErrorMessage));
+                ViewBag.ErrorMessage = errors;
+                return View();
+            }
+
+            var user = await _serviceLogin.RegisterUser(userDTO);
+
+            return RedirectToAction("Login");
         }
 
         [HttpPost]

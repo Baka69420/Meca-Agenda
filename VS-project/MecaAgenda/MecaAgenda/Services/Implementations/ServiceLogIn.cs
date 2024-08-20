@@ -31,10 +31,10 @@ namespace MecaAgenda.Web.Services.Implementations
             return result == PasswordVerificationResult.Success ? user : null;
         }
 
-        public async Task<int> RegisterUser(UserDTO userDTO, string password)
+        public async Task<int> RegisterUser(UserDTO userDTO)
         {
             // Convert password into hash and save hash into new user to store
-            userDTO.PasswordHash = _passwordHasher.HashPassword(userDTO, password);
+            userDTO.PasswordHash = _passwordHasher.HashPassword(userDTO, userDTO.PasswordHash);
 
             // Save new user into DB
             return await _serviceUser.AddAsync(userDTO);
