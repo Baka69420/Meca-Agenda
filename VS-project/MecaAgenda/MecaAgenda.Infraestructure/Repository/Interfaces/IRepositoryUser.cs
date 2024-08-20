@@ -12,7 +12,8 @@ namespace MecaAgenda.Infraestructure.Repository.Interfaces
         Task<int> AddAsync(Users user);
         Task DeleteAsync(int userId);
         Task<Users> GetAsync(int id);
-        Task<ICollection<Users>> ListAsync(string role, string userName);
+        Task<Users> GetByEmailAsync(string email);
+        Task<ICollection<Users>> ListAsync(string role, string name);
         Task UpdateAsync(Users user);
     }
 }

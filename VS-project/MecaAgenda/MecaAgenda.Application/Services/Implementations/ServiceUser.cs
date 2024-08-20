@@ -40,9 +40,16 @@ namespace MecaAgenda.Application.Services.Implementations
             return objectMapped;
         }
 
-        public async Task<ICollection<UserDTO>> ListAsync(string role, string userName)
+        public async Task<UserDTO> GetByEmailAsync(string email)
         {
-            var list = await _repository.ListAsync(role, userName);
+            var @object = await _repository.GetByEmailAsync(email);
+            var objectMapped = _mapper.Map<UserDTO>(@object);
+            return objectMapped;
+        }
+
+        public async Task<ICollection<UserDTO>> ListAsync(string role, string name)
+        {
+            var list = await _repository.ListAsync(role, name);
             var collection = _mapper.Map<ICollection<UserDTO>>(list);
             return collection;
         }

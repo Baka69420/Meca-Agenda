@@ -52,7 +52,16 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             return @object!;
         }
 
-        public async Task<ICollection<Users>> ListAsync(string role, string userName)
+        public async Task<Users> GetByEmailAsync(string email)
+        {
+            var @object = await _context.Set<Users>()
+                .Where(x => x.Email.Equals(email))
+                .OrderBy(x => x.UserId)
+                .FirstOrDefaultAsync();
+            return @object!;
+        }
+
+        public async Task<ICollection<Users>> ListAsync(string role, string name)
         {
             var collection = await _context.Set<Users>()
                 .Include(x => x.Branch)
@@ -63,8 +72,8 @@ namespace MecaAgenda.Infraestructure.Repository.Implementations
             if (!string.IsNullOrWhiteSpace(role))
                 collection = collection.Where(x => x.Role!.Equals(role)).ToList();
 
-            if (!string.IsNullOrWhiteSpace(userName))
-                collection =  collection.Where(x => x.Name!.Contains(userName)).ToList();
+            if (!string.IsNullOrWhiteSpace(name))
+                collection =  collection.Where(x => x.Name!.Contains(name)).ToList();
 
             return collection;
         }

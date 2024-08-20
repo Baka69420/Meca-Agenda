@@ -12,7 +12,8 @@ namespace MecaAgenda.Application.Services.Interfaces
         Task<int> AddAsync(UserDTO userDTO);
         Task DeleteAsync(int userId);
         Task<UserDTO> GetAsync(int id);
-        Task<ICollection<UserDTO>> ListAsync(string role, string userName);
+        Task<UserDTO> GetByEmailAsync(string email);
+        Task<ICollection<UserDTO>> ListAsync(string role, string name);
         Task UpdateAsync(UserDTO userDTO);
     }
 }
