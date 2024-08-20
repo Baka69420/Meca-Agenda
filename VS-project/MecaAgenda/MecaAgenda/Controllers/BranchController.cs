@@ -30,6 +30,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Branch information.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -37,7 +38,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Branch does not exist");
+                    TempData["Message"] = "Branch does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -64,10 +66,14 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "Branch couldn't be created.";
                 return View();
             }
 
             await _serviceBranch.AddAsync(branchDTO);
+
+            TempData["Message"] = "Branch has been created.";
+
             return RedirectToAction("IndexAdmin");
         }
 
@@ -78,6 +84,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Branch information.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -85,7 +92,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Service does not exist");
+                    TempData["Message"] = "Branch does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -102,6 +110,7 @@ namespace MecaAgenda.Web.Controllers
         {
             if (id == null)
             {
+                TempData["Message"] = "Couldn't retrieve Branch information.";
                 return RedirectToAction("IndexAdmin");
             }
 
@@ -111,12 +120,16 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "Branch couldn't be updated.";
                 return View();
             }
 
             branchDTO.BranchId = id.Value;
 
             await _serviceBranch.UpdateAsync(branchDTO);
+
+            TempData["Message"] = "Branch has been updated.";
+
             return RedirectToAction("IndexAdmin");
         }
 
@@ -127,6 +140,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Branch information.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -134,7 +148,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Branch does not exist");
+                    TempData["Message"] = "Branch does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -151,19 +166,14 @@ namespace MecaAgenda.Web.Controllers
         {
             if (id == null)
             {
+                TempData["Message"] = "Couldn't retrieve Branch information.";
                 return RedirectToAction("IndexAdmin");
             }
 
-            if (!ModelState.IsValid)
-            {
-                string errors = string.Join("; ", ModelState.Values
-                    .SelectMany(x => x.Errors)
-                    .Select(x => x.ErrorMessage));
-                ViewBag.ErrorMessage = errors;
-                return View();
-            }
-
             await _serviceBranch.DeleteAsync(id.Value);
+
+            TempData["Message"] = "Branch has been deleted.";
+
             return RedirectToAction("IndexAdmin");
         }
     }

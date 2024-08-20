@@ -32,6 +32,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Schedule.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -50,6 +51,7 @@ namespace MecaAgenda.Web.Controllers
         {
             if (branchId == null)
             {
+                TempData["Message"] = "Couldn't retrieve Schedule.";
                 return RedirectToAction("IndexAdmin");
             }
 
@@ -68,10 +70,14 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "There was an error while creating the Schedule.";
                 return View();
             }
 
             await _serviceBranchSchedule.AddAsync(branchScheduleDTO);
+
+
+            TempData["Message"] = "Schedule created successfully.";
             return RedirectToAction("Details", new { id = branchScheduleDTO.BranchId });
         }
 
@@ -82,6 +88,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Schedule.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -89,7 +96,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Product does not exist");
+                    TempData["Message"] = "Schedule doesn't exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 ViewBag.Branch = await _serviceBranch.GetAsync(@object.BranchId);
@@ -112,10 +120,14 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "There was an error while creating the Schedule.";
                 return View();
             }
 
             await _serviceBranchSchedule.UpdateAsync(branchScheduleDTO);
+
+            TempData["Message"] = "Schedule updated successfully.";
+
             return RedirectToAction("Details", new { id = branchScheduleDTO.BranchId });
         }
 
@@ -126,6 +138,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Schedule.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -133,7 +146,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Product does not exist");
+                    TempData["Message"] = "Schedule doesn't exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 ViewBag.Branch = await _serviceBranch.GetAsync(@object.BranchId);
@@ -152,19 +166,14 @@ namespace MecaAgenda.Web.Controllers
         {
             if (id == null || branchId == null)
             {
+                TempData["Message"] = "Couldn't retrieve Schedule.";
                 return RedirectToAction("IndexAdmin");
             }
 
-            if (!ModelState.IsValid)
-            {
-                string errors = string.Join("; ", ModelState.Values
-                    .SelectMany(x => x.Errors)
-                    .Select(x => x.ErrorMessage));
-                ViewBag.ErrorMessage = errors;
-                return View();
-            }
-
             await _serviceBranchSchedule.DeleteAsync(id.Value);
+
+            TempData["Message"] = "Schedule deleted successfully.";
+
             return RedirectToAction("Details", new { id = branchId });
         }
     }

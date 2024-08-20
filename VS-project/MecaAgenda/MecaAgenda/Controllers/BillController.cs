@@ -57,6 +57,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Bill.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -64,9 +65,10 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Bill does not exist");
+                    TempData["Message"] = "Bill does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
-
+                
                 return View(@object);
             }
             catch (Exception ex)
@@ -90,6 +92,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Bill.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -97,7 +100,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Bill does not exist");
+                    TempData["Message"] = "Bill does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -113,19 +117,13 @@ namespace MecaAgenda.Web.Controllers
         {
             if (id == null)
             {
+                TempData["Message"] = "Couldn't retrieve Bill.";
                 return RedirectToAction("IndexAdmin");
             }
 
-            if (!ModelState.IsValid)
-            {
-                string errors = string.Join("; ", ModelState.Values
-                    .SelectMany(x => x.Errors)
-                    .Select(x => x.ErrorMessage));
-                ViewBag.ErrorMessage = errors;
-                return View();
-            }
-
             await _serviceBill.DeleteAsync(id.Value);
+
+            TempData["Message"] = "Bill has been deleted.";
 
             return View();
         }

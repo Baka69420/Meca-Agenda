@@ -17,7 +17,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
@@ -39,7 +39,6 @@ namespace MecaAgenda.Web.Controllers
             return PartialView("_ServiceTableAdmin", collection);
         }
 
-
         [HttpGet]
         public async Task<ActionResult> Details(int? id)
         {
@@ -47,6 +46,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't get Service to display.";
                     if (User.IsInRole("Admin"))
                         return RedirectToAction("IndexAdmin");
                     else
@@ -57,7 +57,11 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Service does not exist");
+                    TempData["Message"] = "Service does not exist.";
+                    if (User.IsInRole("Admin"))
+                        return RedirectToAction("IndexAdmin");
+                    else
+                        return RedirectToAction("Index");
                 }
 
                 return View(@object);
@@ -86,10 +90,13 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "There was an error while creating the Service.";
                 return View();
             }
 
             await _serviceService.AddAsync(serviceDTO);
+
+            TempData["Message"] = "Service Created Successfully.";
             return RedirectToAction("IndexAdmin");
         }
 
@@ -101,6 +108,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't get Service information.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -108,7 +116,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Service does not exist");
+                    TempData["Message"] = "Service does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -126,6 +135,7 @@ namespace MecaAgenda.Web.Controllers
         {
             if (id == null)
             {
+                TempData["Message"] = "Couldn't get Service information.";
                 return RedirectToAction("IndexAdmin");
             }
 
@@ -135,12 +145,16 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "There was an error while creating the Service.";
                 return View();
             }
 
             serviceDTO.ServiceId = id.Value;
 
             await _serviceService.UpdateAsync(serviceDTO);
+
+            TempData["Message"] = "Service updated successfully.";
+
             return RedirectToAction("IndexAdmin");
         }
 
@@ -152,6 +166,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't get Service.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -159,7 +174,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Service does not exist");
+                    TempData["Message"] = "Service does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -177,19 +193,14 @@ namespace MecaAgenda.Web.Controllers
         {
             if (id == null)
             {
+                TempData["Message"] = "Couldn't get Service to display.";
                 return RedirectToAction("IndexAdmin");
             }
 
-            if (!ModelState.IsValid)
-            {
-                string errors = string.Join("; ", ModelState.Values
-                    .SelectMany(x => x.Errors)
-                    .Select(x => x.ErrorMessage));
-                ViewBag.ErrorMessage = errors;
-                return View();
-            }
-
             await _serviceService.DeleteAsync(id.Value);
+
+            TempData["Message"] = "Service deleted successfully.";
+
             return RedirectToAction("IndexAdmin");
         }
     }

@@ -73,6 +73,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Appointment.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -80,7 +81,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Appointment does not exist");
+                    TempData["Message"] = "Appointment does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -204,10 +206,13 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "Appointment couldn't be created.";
                 return View();
             }
 
             int appointmentId = await _serviceAppointment.AddAsync(appointmentDTO);
+
+            TempData["Message"] = "Appointment has been created.";
 
             return RedirectToAction("Details", new { id = appointmentId });
         }
@@ -219,6 +224,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Appointment.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -226,7 +232,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Appointment does not exist");
+                    TempData["Message"] = "Appointment does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 var branches = await _serviceBranch.ListAsync("");
@@ -284,12 +291,15 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "Appointment couldn't be updated.";
                 return View();
             }
 
             appointmentDTO.Status = "Rescheduled";
 
             await _serviceAppointment.UpdateAsync(appointmentDTO);
+
+            TempData["Message"] = "Appointment has been updated.";
 
             return RedirectToAction("Details", new { id = appointmentDTO.AppointmentId });
         }
@@ -301,6 +311,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Appointment.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -308,7 +319,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Appointment does not exist");
+                    TempData["Message"] = "Appointment does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -325,19 +337,14 @@ namespace MecaAgenda.Web.Controllers
         {
             if (id == null)
             {
+                TempData["Message"] = "Couldn't retrieve Appointment.";
                 return RedirectToAction("IndexAdmin");
             }
 
-            if (!ModelState.IsValid)
-            {
-                string errors = string.Join("; ", ModelState.Values
-                    .SelectMany(x => x.Errors)
-                    .Select(x => x.ErrorMessage));
-                ViewBag.ErrorMessage = errors;
-                return View();
-            }
-
             await _serviceAppointment.DeleteAsync(id.Value);
+
+            TempData["Message"] = "Appointment has been deleted.";
+
             return RedirectToAction("IndexAdmin");
         }
 
@@ -350,6 +357,7 @@ namespace MecaAgenda.Web.Controllers
 
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Appointment.";
                     return RedirectToAction("Index");
                 }
 
@@ -357,7 +365,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Appointment does not exist");
+                    TempData["Message"] = "Appointment does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -375,6 +384,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Appointment.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -382,7 +392,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Appointment does not exist");
+                    TempData["Message"] = "Appointment does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 BillDTO billDTO = new BillDTO() 
@@ -401,6 +412,8 @@ namespace MecaAgenda.Web.Controllers
                 @object.Status = "Completed";
 
                 await _serviceAppointment.UpdateAsync(@object);
+                
+                TempData["Message"] = "Preliminary invoice has been created.";
 
                 return RedirectToAction("Details", "Bill", new { id = billId });
             }

@@ -34,6 +34,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Product.";
                     if (User.IsInRole("Admin"))
                         return RedirectToAction("IndexAdmin");
                     else
@@ -44,7 +45,11 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Product does not exist");
+                    TempData["Message"] = "Product does not exist.";
+                    if (User.IsInRole("Admin"))
+                        return RedirectToAction("IndexAdmin");
+                    else
+                        return RedirectToAction("Index");
                 }
 
                 return View(@object);
@@ -107,10 +112,14 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "Product couldn't be created.";
                 return View();
             }
 
             await _serviceProduct.AddAsync(productDTO);
+
+            TempData["Message"] = "Product has been created successfully.";
+
             return RedirectToAction("IndexAdmin");
         }
 
@@ -124,6 +133,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Product.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -131,7 +141,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Product does not exist");
+                    TempData["Message"] = "Product does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -149,6 +160,7 @@ namespace MecaAgenda.Web.Controllers
         {
             if (id == null)
             {
+                TempData["Message"] = "Couldn't retrieve Product.";
                 return RedirectToAction("IndexAdmin");
             }
 
@@ -158,12 +170,16 @@ namespace MecaAgenda.Web.Controllers
                     .SelectMany(x => x.Errors)
                     .Select(x => x.ErrorMessage));
                 ViewBag.ErrorMessage = errors;
+                TempData["Message"] = "Product couldn't be updated.";
                 return View();
             }
 
             productDTO.ProductId = id.Value;
 
             await _serviceProduct.UpdateAsync(productDTO);
+
+            TempData["Message"] = "Product has been updated successfully.";
+
             return RedirectToAction("IndexAdmin");
         }
 
@@ -175,6 +191,7 @@ namespace MecaAgenda.Web.Controllers
             {
                 if (id == null)
                 {
+                    TempData["Message"] = "Couldn't retrieve Product.";
                     return RedirectToAction("IndexAdmin");
                 }
 
@@ -182,7 +199,8 @@ namespace MecaAgenda.Web.Controllers
 
                 if (@object == null)
                 {
-                    throw new Exception("Product does not exist");
+                    TempData["Message"] = "Product does not exist.";
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 return View(@object);
@@ -200,19 +218,14 @@ namespace MecaAgenda.Web.Controllers
         {
             if (id == null)
             {
+                TempData["Message"] = "Couldn't retrieve Product.";
                 return RedirectToAction("IndexAdmin");
             }
 
-            if (!ModelState.IsValid)
-            {
-                string errors = string.Join("; ", ModelState.Values
-                    .SelectMany(x => x.Errors)
-                    .Select(x => x.ErrorMessage));
-                ViewBag.ErrorMessage = errors;
-                return View();
-            }
-
             await _serviceProduct.DeleteAsync(id.Value);
+
+            TempData["Message"] = "Product has been deleted successfully.";
+
             return RedirectToAction("IndexAdmin");
         }
     }
