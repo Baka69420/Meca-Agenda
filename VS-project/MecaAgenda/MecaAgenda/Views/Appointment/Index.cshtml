@@ -1,5 +1,4 @@
-﻿@using System.Globalization
-@model IEnumerable<MecaAgenda.Application.DTOs.AppointmentDTO>
+﻿@model IEnumerable<MecaAgenda.Application.DTOs.AppointmentDTO>
 
 @{
     ViewData["Title"] = "Appointment List";
@@ -42,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+                $ @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-primary" })

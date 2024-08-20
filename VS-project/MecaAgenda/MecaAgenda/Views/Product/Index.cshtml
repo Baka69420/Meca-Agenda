@@ -1,5 +1,4 @@
-﻿@using System.Globalization
-@model IEnumerable<MecaAgenda.Application.DTOs.ProductDTO>
+﻿@model IEnumerable<MecaAgenda.Application.DTOs.ProductDTO>
 
 @{
     ViewData["Title"] = "Product List";
@@ -32,7 +31,7 @@
                             @Html.DisplayNameFor(model => model.Price)
                         </dt>
                         <dd class="col-sm-6">
-                            @Html.DisplayFor(modelItem => item.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+                            $ @Html.DisplayFor(modelItem => item.Price)
                         </dd>
                     </dl>
                     @Html.ActionLink("More Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-primary" })

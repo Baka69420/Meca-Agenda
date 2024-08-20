@@ -1,5 +1,4 @@
-﻿@using System.Globalization
-@model MecaAgenda.Application.DTOs.AppointmentDTO
+﻿@model MecaAgenda.Application.DTOs.AppointmentDTO
 
 @{
     ViewData["Title"] = "Delete Appointment";
@@ -41,7 +40,7 @@
             @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+            $ @Html.DisplayFor(model => model.Price)
         </dd>
     </dl>
 
