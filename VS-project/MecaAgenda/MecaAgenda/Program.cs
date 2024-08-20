@@ -11,6 +11,11 @@ using MecaAgenda.Application.Services.Interfaces;
 using MecaAgenda.Application.Services.Implementations;
 using MecaAgenda.Application.Profiles;
 using MecaAgenda.Application.Services.AutoHosted;
+using MecaAgenda.Web.Services.Interfaces;
+using MecaAgenda.Web.Services.Implementations;
+using Microsoft.AspNetCore.Identity;
+using MecaAgenda.Application.DTOs;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +50,24 @@ builder.Services.AddTransient<IServiceService, ServiceService>();
 builder.Services.AddTransient<IServiceUser, ServiceUser>();
 
 builder.Services.AddTransient<IServiceMailTemplates, ServiceMailTemplates>();
+
+
+// Log In Requirements
+builder.Services.AddTransient<IPasswordHasher<UserDTO>, PasswordHasher<UserDTO>>();
+builder.Services.AddTransient<IServiceLogin, ServiceLogin>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("ManagerOnly", policy => policy.RequireRole("Manager"));
+    options.AddPolicy("ClientOnly", policy => policy.RequireRole("Client"));
+});
 
 // Automated Service
 builder.Services.AddHostedService<ServiceBackground>();

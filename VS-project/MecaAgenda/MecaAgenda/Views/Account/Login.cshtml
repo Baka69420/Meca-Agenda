@@ -5,7 +5,7 @@
 }
 
 <div class="my-5">
-    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         <div class="d-flex align-items-center justify-content-center">
@@ -16,33 +16,27 @@
 
                 <div class="card-body">
                     <h5 class="card-title ">Log In</h5>
-                    <p></p>
+                    <br/>
                     <div class="text-center">
                         <img src="~/images/logo.png" alt="Revved Up Repairs Logo" />
                     </div>
-                    <p></p>
+                    <br/>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.User, htmlAttributes:
-                                 new { @class = "control-label col-md-2" })
+                        <label asp-for="Email" class="control-label col-md-2"></label>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.User, new
-                                {
-                                    htmlAttributes = new { @class = "form-control" }
-                                })
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
-                        @Html.LabelFor(model => model.Password,
-                                 htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label col-md-2"></label>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.Password, new
-                                {
-                                    htmlAttributes = new { type = "password", @class = "form-control" }
-                                })
+                            <input asp-for="Password" type="password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="col-md-10 mt-4">
-                            <button type="submit" id="btnGuardar"
-                                    class="btn btn-lg btn-primary">
-                                Enter
-                            </button>
+                            <button type="submit" id="btnGuardar" class="btn btn-primary">Login</button>
+                            <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Go Back</a>
                         </div>
                     </div>
                 </div>

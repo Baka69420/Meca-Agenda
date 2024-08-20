@@ -5,21 +5,21 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MecaAgenda.Web.Services.Implementations
 {
-    public class ServiceLogIn : IServiceLogIn
+    public class ServiceLogin : IServiceLogin
     {
         private readonly IPasswordHasher<UserDTO> _passwordHasher;
         private readonly IServiceUser _serviceUser;
 
-        public ServiceLogIn(IPasswordHasher<UserDTO> passwordHasher, IServiceUser serviceUser)
+        public ServiceLogin(IPasswordHasher<UserDTO> passwordHasher, IServiceUser serviceUser)
         {
             _passwordHasher = passwordHasher;
             _serviceUser = serviceUser;
         }
 
-        public async Task<UserDTO?> LogInUser(int userId, string password)
+        public async Task<UserDTO?> LoginUser(string email, string password)
         {
             //Get user information
-            var user = await _serviceUser.GetAsync(userId);
+            var user = await _serviceUser.GetByEmailAsync(email);
 
             // Return null if User was not found
             if (user == null) return null;
@@ -40,10 +40,10 @@ namespace MecaAgenda.Web.Services.Implementations
             return await _serviceUser.AddAsync(userDTO);
         }
 
-        public async Task<bool> UpdatePassword(int userId, string oldPassword, string newPassword)
+        public async Task<bool> UpdatePassword(string email, string oldPassword, string newPassword)
         {
             // Get user information
-            var user = await LogInUser(userId, oldPassword);
+            var user = await LoginUser(email, oldPassword);
 
             // If no user is returned with old credentials return false
             if (user == null) return false;

@@ -2,10 +2,10 @@
 
 namespace MecaAgenda.Web.Services.Interfaces
 {
-    public interface IServiceLogIn
+    public interface IServiceLogin
     {
-        Task<UserDTO?> LogInUser(int userId, string password);
+        Task<UserDTO?> LoginUser(string email, string password);
         Task<int> RegisterUser(UserDTO userDTO, string password);
-        Task<bool> UpdatePassword (int userId, string oldPassword, string newPassword);
+        Task<bool> UpdatePassword (string email, string oldPassword, string newPassword);
     }
 }
