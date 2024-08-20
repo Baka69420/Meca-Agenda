@@ -1,11 +1,13 @@
 ﻿using MecaAgenda.Application.DTOs;
 using MecaAgenda.Application.Services.Implementations;
 using MecaAgenda.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MecaAgenda.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ServiceController : Controller
     {
         private readonly IServiceService _serviceService;

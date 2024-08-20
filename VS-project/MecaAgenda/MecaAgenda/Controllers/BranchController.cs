@@ -1,10 +1,12 @@
 ﻿using MecaAgenda.Application.DTOs;
 using MecaAgenda.Application.Services.Implementations;
 using MecaAgenda.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MecaAgenda.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BranchController : Controller
     {
         private readonly IServiceBranch _serviceBranch;
