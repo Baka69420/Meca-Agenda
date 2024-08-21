@@ -45,6 +45,10 @@
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.AppointmentId }, new { @class = "btn btn-primary" })
+                @if ((item.Status == "Scheduled" || item.Status == "Rescheduled") && DateTime.Parse(item.Date.ToString() + " " + item.StartTime) > DateTime.Now.AddDays(1))
+                {
+                    @Html.ActionLink("Cancel", "Delete", new { id = item.AppointmentId }, new { @class = "btn btn-danger" })
+                }   
             </td>
         </tr>
 }

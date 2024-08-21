@@ -1,18 +1,23 @@
 ﻿using MecaAgenda.Application.DTOs;
 using MecaAgenda.Application.Services.Implementations;
 using MecaAgenda.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MecaAgenda.Web.Controllers
 {
+    [Authorize(Roles = "Admin,Manager")]
     public class ScheduleController : Controller
     {
+        private readonly IServiceUser _serviceUser;
         private readonly IServiceBranch _serviceBranch;
         private readonly IServiceBranchSchedule _serviceBranchSchedule;
         private readonly IServiceScheduleException _serviceScheduleException;
 
-        public ScheduleController(IServiceBranch serviceBranch, IServiceBranchSchedule serviceBranchSchedule, IServiceScheduleException serviceScheduleException)
+        public ScheduleController(IServiceBranch serviceBranch, IServiceBranchSchedule serviceBranchSchedule, IServiceScheduleException serviceScheduleException, IServiceUser serviceUser)
         {
+            _serviceUser = serviceUser;
             _serviceBranch = serviceBranch;
             _serviceBranchSchedule = serviceBranchSchedule;
             _serviceScheduleException = serviceScheduleException;
@@ -21,6 +26,13 @@ namespace MecaAgenda.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAdmin()
         {
+            if (User.IsInRole("Manager"))
+            {
+                var user = await _serviceUser.GetAsync(int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value!));
+
+                return RedirectToAction("Details", new { id = user.BranchId });
+            }
+
             var collection = await _serviceBranch.ListAsync("");
             return View(collection);
         }

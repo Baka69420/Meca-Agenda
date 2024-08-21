@@ -45,7 +45,10 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
     </dl>
-    @Html.ActionLink("Edit Branch", "Edit", "Branch", new { branchId = Model.BranchId }, new { @class = "btn btn-primary" })
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edit Branch", "Edit", "Branch", new { branchId = Model.BranchId }, new { @class = "btn btn-primary" })
+    }
     <br />
     <br />
 

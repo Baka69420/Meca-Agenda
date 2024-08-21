@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MecaAgenda.Application.DTOs.BillDTO>
+
+@{
+    ViewData["Title"] = "BIll List";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Branch.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Paid)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Branch.Name)
+            </td>
+            <td>
+                $ @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentMethod)
+            </td>
+            <td>
+                    @if (item.Paid)
+                    {
+                        <p>Fully Paid</p>
+                    }
+                    else
+                    {
+                        <p>Not Paid</p>
+                    }
+            </td>
+            <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.BillId }, new { @class = "btn btn-primary" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

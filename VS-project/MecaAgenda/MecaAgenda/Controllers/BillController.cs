@@ -1,7 +1,9 @@
 ﻿using MecaAgenda.Application.Services.Implementations;
 using MecaAgenda.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace MecaAgenda.Web.Controllers
 {
@@ -19,25 +21,43 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> IndexAdmin()
         {
-            var branches = await _serviceBranch.ListAsync("");
+            var branchOptions = new List<SelectListItem>();
+
+            if (User.IsInRole("Admin"))
+            {
+                var branches = await _serviceBranch.ListAsync("");
+
+                branchOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "", Text = "--- Select a Branch ---" }
+                };
+
+                branchOptions.AddRange(branches.Select(item => new SelectListItem
+                {
+                    Value = item.BranchId.ToString(),
+                    Text = item.Name
+                }));
+            }
+            else
+            {
+                var user = await _serviceUser.GetAsync(int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value!));
+
+                branchOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = user.BranchId.ToString(), Text = user.Branch.Name }
+                };
+            }
+
             var clients = await _serviceUser.ListAsync("client", "");
 
-            var branchOptions = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "", Text = "--- Select a Branch ---" }
-            };
             var clientOptions = new List<SelectListItem>
             {
                 new SelectListItem { Value = "", Text = "--- Select a Client ---" }
             };
 
-            branchOptions.AddRange(branches.Select(item => new SelectListItem
-            {
-                Value = item.BranchId.ToString(),
-                Text = item.Name
-            }));
             clientOptions.AddRange(clients.Select(item => new SelectListItem
             {
                 Value = item.UserId.ToString(),
@@ -48,6 +68,17 @@ namespace MecaAgenda.Web.Controllers
             ViewBag.Clients = clientOptions;
 
             return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> Index()
+        {
+            var user = await _serviceUser.GetAsync(int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value!));
+
+            var collection = await _serviceBill.ListAsync(null, user.UserId, null, null);
+
+            return View(collection);
         }
 
         [HttpGet]
@@ -78,6 +109,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> GetBills(int? idBranch, int? idClient, DateOnly? billStartDate, DateOnly? billEndDate)
         {
             var collection = await _serviceBill.ListAsync(idBranch, idClient, billStartDate, billEndDate);
@@ -86,6 +118,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> Delete(int? id)
         {
             try
@@ -113,6 +146,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> Delete(int? id, IFormCollection collection)
         {
             if (id == null)

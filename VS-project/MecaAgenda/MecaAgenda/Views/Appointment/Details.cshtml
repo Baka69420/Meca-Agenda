@@ -120,5 +120,9 @@ else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
 {
     <div>
         <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+        @if ((Model.Status == "Scheduled" || Model.Status == "Rescheduled") && DateTime.Parse(Model.Date.ToString() + " " + Model.StartTime) > DateTime.Now.AddDays(1))
+        {
+            @Html.ActionLink("Cancel", "Delete", new { id = Model.AppointmentId }, new { @class = "btn btn-danger" })
+        }
     </div>
 }

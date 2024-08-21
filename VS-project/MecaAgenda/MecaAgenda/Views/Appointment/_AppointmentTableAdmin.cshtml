@@ -52,7 +52,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Service.Name)
                 </td>
-                    @if (User.IsInRole("Manager") && item.Status == "Scheduled")
+                    @if (User.IsInRole("Manager") && (item.Status == "Scheduled" || item.Status == "Rescheduled") && DateTime.Parse(item.Date.ToString() + " " + item.StartTime) > DateTime.Now.AddMinutes(10))
                     {
                         <td>
 

@@ -85,7 +85,9 @@
             $('#billEndFilter').val(today);
 
 
-            loadTable(null, null, null, null);
+            var idBranch = $('#branchFilter').val() == "" ? null : $('#branchFilter').val();
+
+            loadTable(idBranch, null, null, null);
 
             $('#filterButton').click(function () {
                 var idBranch = $('#branchFilter').val() == "" ? null : $('#branchFilter').val();

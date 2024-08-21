@@ -380,7 +380,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager, Client")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -408,7 +408,7 @@ namespace MecaAgenda.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager, Client")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id, IFormCollection collection)
         {
